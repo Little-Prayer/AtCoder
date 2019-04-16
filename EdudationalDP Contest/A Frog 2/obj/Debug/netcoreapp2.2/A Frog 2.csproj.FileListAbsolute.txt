@@ -1,0 +1,11 @@
+C:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\bin\Debug\netcoreapp2.2\A Frog 2.deps.json
+C:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\bin\Debug\netcoreapp2.2\A Frog 2.runtimeconfig.json
+C:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\bin\Debug\netcoreapp2.2\A Frog 2.runtimeconfig.dev.json
+c:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\bin\Debug\netcoreapp2.2\A Frog 2.dll
+c:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\bin\Debug\netcoreapp2.2\A Frog 2.pdb
+c:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\obj\Debug\netcoreapp2.2\A Frog 2.csprojAssemblyReference.cache
+c:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\obj\Debug\netcoreapp2.2\A Frog 2.csproj.CoreCompileInputs.cache
+c:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\obj\Debug\netcoreapp2.2\A Frog 2.AssemblyInfoInputs.cache
+c:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\obj\Debug\netcoreapp2.2\A Frog 2.AssemblyInfo.cs
+c:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\obj\Debug\netcoreapp2.2\A Frog 2.dll
+c:\Users\Koki Sato\Documents\Programing\EdudationalDP Contest\A Frog 2\obj\Debug\netcoreapp2.2\A Frog 2.pdb
