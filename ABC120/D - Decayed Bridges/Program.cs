@@ -19,20 +19,20 @@ namespace D___Decayed_Bridges
             }
 
             var inconvenience = new long[M];
-            inconvenience[M-1] = N*(N-1)/2;
+            inconvenience[M-1] = (long)N*(long)(N-1)/2;
 
             var islandGroup = new UnionFind(N);
 
-            for(int i = M-2;i>=0;i--)
+            for(int i = M-1;i>0;i--)
             {
                 int X = decayed[i,0];
                 int Y = decayed[i,1];
 
                 if(islandGroup.sameRoot(X,Y))
                 {
-                    inconvenience[i] = inconvenience[i+1];
+                    inconvenience[i-1] = inconvenience[i];
                 }else{
-                    inconvenience[i] = inconvenience[i+1] - (islandGroup.rootCount[X]*islandGroup.rootCount[Y]);
+                    inconvenience[i-1] = inconvenience[i] - islandGroup.RootCount(X)*islandGroup.RootCount(Y);
                     islandGroup.unite(X,Y);
                 }
             }
@@ -48,13 +48,18 @@ namespace D___Decayed_Bridges
     {
         private int[] parents;
         // 同じ根に属する枝の数を格納する
-        public int[] rootCount{get;}
+        private int[] rootCount;
+
+        public int RootCount(int branch)
+        {
+            return rootCount[root(branch)];
+        }
         
         public UnionFind(int count)
         {
             parents = new int[count+1];
             rootCount = new int[count+1];
-            for(int i = 0 ;i<=count;i++)
+            for(int i = 0 ;i<count+1;i++)
             {
                 parents[i] = i;
                 rootCount[i] = 1;
