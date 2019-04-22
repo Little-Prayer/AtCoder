@@ -19,6 +19,11 @@ long = x * y;
 - 累積和で楽勝、添字の扱いが微妙に面倒
 - https://qiita.com/drken/items/56a6b68edef8fc605821
 
+### ABC124
+#### A - Buttons
+#### B - Great Ocean View
+- 余裕の自力AC
+
 ### Edudational DP Contest
 #### A-E問題
 - ↓を読みながらチマチマと、ほとんど参考コードをC#にコンバートしてるだけ感
