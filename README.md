@@ -24,6 +24,9 @@ long = x * y;
 #### B - Great Ocean View
 - 余裕の自力AC
 
+#### C Coloring Colorfully
+- 自力AC、参加してないときに限って解けるC問題が来る
+
 ### Edudational DP Contest
 #### A-E問題
 - ↓を読みながらチマチマと、ほとんど参考コードをC#にコンバートしてるだけ感
