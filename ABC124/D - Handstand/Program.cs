@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace D___Handstand
 {
@@ -12,27 +14,21 @@ namespace D___Handstand
 
             var S = Console.ReadLine();
 
-            var groups0 = new int[100010];
-            var groups1 = new int[100010];
+            var switch01 = new List<int>();
+            switch01.Add(0);
 
-            var group0Count = 0;
-            var group1COunt = 1;
+            for(int i = 1 ; i < S.Length-1 ; i++) if(S[i] != S[i-1]) switch01.Add(i);
+            if(!switch01.Exists(n => n == S.Length-1)) switch01.Add(S.Length-1);
 
-            int i = 0;
-
-            while(i < S.Length)
-            {
-                while(S[i] == '0')
-                {
-
-                }
-
-                while(S[i] == '1')
-                {
-                    
-                }
+            var continuousHandstand = new List<int>();
+            
+            if(switch01.Count < 2*K) {
+                continuousHandstand.Add(S.Length);
+            }else{
+                for(int start = S[0] == 0 ? 1 : 0;start + 2*K < switch01.Count ; start += 2) continuousHandstand.Add(switch01[start+2*K] - switch01[start]);
             }
-
+            switch01.ForEach(s => Console.WriteLine(s));
+            Console.WriteLine(continuousHandstand.Max());
         }
     }
 }
