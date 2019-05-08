@@ -27,6 +27,9 @@ long = x * y;
 #### C Coloring Colorfully
 - 自力AC、参加してないときに限って解けるC問題が来る
 
+#### D - Handstand
+- 解説見た、アルゴリズム自体より細かい処理に苦戦するパターン
+
 ### ABC125
 #### A - Biscuit Generator
 - 脳が寝てたので何故かFor文を回してしまう、まあ余裕AC

@@ -17,17 +17,13 @@ namespace D___Handstand
             var switch01 = new List<int>();
             switch01.Add(0);
 
-            for(int i = 1 ; i < S.Length-1 ; i++) if(S[i] != S[i-1]) switch01.Add(i);
-            if(!switch01.Exists(n => n == S.Length-1)) switch01.Add(S.Length-1);
+            for(int i = 1 ; i < S.Length ; i++) if(S[i] != S[i-1]) switch01.Add(i);
+            switch01.Add(S.Length);
 
             var continuousHandstand = new List<int>();
             
-            if(switch01.Count < 2*K) {
-                continuousHandstand.Add(S.Length);
-            }else{
-                for(int start = S[0] == 0 ? 1 : 0;start + 2*K < switch01.Count ; start += 2) continuousHandstand.Add(switch01[start+2*K] - switch01[start]);
-            }
-            switch01.ForEach(s => Console.WriteLine(s));
+            for(int i = 0 ; i < switch01.Count-1 ; i++) continuousHandstand.Add(S[switch01[i]] == '0' ? switch01[Math.Min(switch01.Count-1,i+2*K)]-switch01[i] : switch01[Math.Min(switch01.Count-1,i+2*K+1)]-switch01[i]);
+            
             Console.WriteLine(continuousHandstand.Max());
         }
     }
