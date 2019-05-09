@@ -2,6 +2,11 @@
 
 ## AtCoder Begginers Contest
 
+### ABC051
+#### C - Back and Forth
+- 自力AC、だいぶベタな実装になったけど、もっとエレガントに行けそう
+- というか今の300点より難易度低くないか？
+
 ### ABC120
 #### D-Decayed Bridge
 - 解説見た
