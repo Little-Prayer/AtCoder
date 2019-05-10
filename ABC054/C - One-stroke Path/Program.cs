@@ -18,8 +18,6 @@ namespace C___One_stroke_Path
             for(int j = 0 ; j < M ; j++)
             {
                 read = Array.ConvertAll(Console.ReadLine().Split(' '),int.Parse);
-                nodes[read[0]].Add[read[1]];
-                nodes[read[1]].Add[read[0]];
             }
         }
     }
