@@ -22,7 +22,7 @@ namespace D___Even_Relation
 
             var queue = new Queue<node>();
             nodes[1].isOdd = false;
-            queue.Add(nodes[1]);
+            queue.Enqueue(nodes[1]);
             while(queue.Count != 0)
             {
                 var currentNode = queue.Dequeue();
@@ -46,7 +46,7 @@ namespace D___Even_Relation
         public List<int> children{get;set;}
         public List<int> costs{get; set;}
         
-        node(){
+        public node(){
             children = new List<int>();
             costs = new List<int>();
         }
