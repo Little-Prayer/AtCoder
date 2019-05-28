@@ -33,6 +33,7 @@ namespace D___Integer_Cards
                     {
                         Ai[count] = BiCi[i].C;
                         count++;
+                        if(count==N) break;
                     }else{
                         break;
                     }
