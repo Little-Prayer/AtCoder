@@ -33,13 +33,13 @@ namespace D___Integer_Cards
                     {
                         Ai[count] = BiCi[i].C;
                         count++;
+                        if(count==N) break;
                     }else{
                         break;
                     }
                 }
             }
             Console.WriteLine(Ai.Sum());
-            Console.ReadKey();
         }
     }
     public struct BC
