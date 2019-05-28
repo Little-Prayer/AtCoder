@@ -40,7 +40,6 @@ namespace D___Integer_Cards
                 }
             }
             Console.WriteLine(Ai.Sum());
-            Console.ReadKey();
         }
     }
     public struct BC
