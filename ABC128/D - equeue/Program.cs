@@ -11,26 +11,108 @@ namespace D___equeue
             var read = Array.ConvertAll(Console.ReadLine().Split(' '),int.Parse);
             var N = read[0];
             var K = read[1];
-            var V = new List<int>();
-            V.AddRange(Array.ConvertAll(Console.ReadLine().Split(' '),int.Parse));
-
-            var atHand = new List<int>();
-            long maxValue = 0;
-
-            for(int toFirst = 0 ; toFirst <= Math.Max(K,N) ; toFirst++)
+            var V = Array.ConvertAll(Console.ReadLine().Split(' '),int.Parse);
+            var sumMax = 0;
+            
+            for(int pickTimes = 1 ; pickTimes <= Math.Min(N,K) ; pickTimes++)
             {
-                for(int toLast = 0 ; toLast <= K-toFirst ; toLast++)
+                for(int pickLeft = 0 ; pickLeft <= pickTimes ; pickLeft++)
                 {
-                    for(int getFirst = 0 ; getFirst < toFirst ; getFirst++)atHand.Add(V[getFirst]);
-                    for(int getLast = 0 ; getLast < toLast ; getLast++)atHand.Add(V[V.Count-1-getLast]);
-                    atHand = atHand.OrderBy(s => s).ToList();
-                    var trash = Math.Min(K - toFirst - toLast,atHand.Count);
-                    for(int i = 0 ; i < trash ; i++)atHand[i] = 0;
-                    var totalValue = atHand.Sum();
-                    if(maxValue<totalValue) maxValue=totalValue;
+                    var deque = new Deque<int>(V);
+                    var atHand = new List<int>();
+                    for(int l = 1 ; l <= pickLeft ; l++) atHand.Add(deque.PopFront());
+                    for(int r = 1 ; r <= pickTimes - pickLeft ; r++) atHand.Add(deque.PopBack());
+
+                    atHand.Sort();
+
+                    for(int trash = 0 ; trash < Math.Min(K - pickTimes,pickTimes);trash++)
+                    {
+                        if(atHand[trash] < 0)
+                        {
+                            atHand[trash] = 0;
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                    sumMax = Math.Max(sumMax,atHand.Sum());
                 }
+
+
             }
-            Console.WriteLine(maxValue);
+            Console.WriteLine(sumMax);
         }
     }
+    class Deque<T>
+{
+    T[] buffer;
+    int capacity, count, front;
+
+    public Deque(int _capacity){buffer = new T[capacity = _capacity];}
+    public Deque(){buffer = new T[capacity = 16];}
+    public Deque(T[] items)
+    {
+        buffer = items;
+        capacity = items.Length;
+        count = items.Length;
+    }
+
+    public void PushFront(T item)
+    {
+        if(capacity == count) extend();
+        count += 1;
+        if(front == 0) front = capacity;
+        front -= 1;
+        buffer[front] = item;
+    }
+    public void PushBack(T item)
+    {
+        if(capacity == count) extend();
+        count += 1;
+        buffer[(front + count -1) % capacity] = item;
+    }
+    public T PopFront()
+    {
+        if(count == 0) throw new InvalidOperationException("collection is empty");
+        var ret = buffer[front];
+        front = front + 1 % capacity;
+        count -= 1;
+        return ret;
+    }
+    public T PopBack()
+    {
+        if(count == 0) throw new InvalidOperationException("collection is empty");
+        var ret = (front + count - 1) % capacity;
+        count -= 1;
+        return buffer[ret];
+    }
+
+    private void extend()
+    {
+        var newBuffer = new T[capacity << 1];
+        if(front + count > capacity)
+        {
+            Array.Copy(buffer,front,newBuffer,0,capacity - front);
+            Array.Copy(buffer,0,newBuffer,capacity-front,count-capacity+front);
+        }else{
+            Array.Copy(buffer,front,newBuffer,0,count);
+        }
+        buffer = newBuffer;
+        front = 0;
+        capacity <<= 1;
+    }
+
+    public T[] toArray()
+    {
+        var ret = new T[count];
+        if(front + count > capacity)
+        {
+            Array.Copy(buffer,front,ret,0,capacity - front);
+            Array.Copy(buffer,0,ret,capacity-front,count-capacity+front);
+        }else{
+            Array.Copy(buffer,front,ret,0,count);
+        }
+        return ret;
+    }
+}
 }

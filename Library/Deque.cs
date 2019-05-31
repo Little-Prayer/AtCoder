@@ -8,6 +8,12 @@ class Deque<T>
 
     public Deque(int _capacity){buffer = new T[capacity = 1 << _capacity];}
     public Deque(){buffer = new T[capacity = 16];}
+    public Deque(T[] items)
+    {
+        buffer = items;
+        capacity = items.Length;
+        count = items.Length;
+    }
 
     public void PushFront(T item)
     {
@@ -26,8 +32,10 @@ class Deque<T>
     public T PopFront()
     {
         if(count == 0) throw new InvalidOperationException("collection is empty");
+        var ret = buffer[front];
+        front = front + 1 % capacity;
         count -= 1;
-        return buffer[front];
+        return ret;
     }
     public T PopBack()
     {
