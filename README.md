@@ -99,6 +99,33 @@ long = x * y;
 - ロジックは思いついたものの実装が遅れたため本番では間に合わず。
 - グラフ探索の実装に苦手意識があるのでdijkstraとかBFSとかもうちょい解きたい
 
+### ABC127
+
+#### C - Prison
+
+- 本番自力AC
+- Liの最大値とRiの最小値を取り、Max（Rimin - Limax + 1 , 0)
+- 考察・コード化ともに簡単だったが、凡ミスで1RE、つらみ
+
+#### D - Integer Card
+
+- 本番間に合わず、解説見たものの考察自体は合ってたので自力AC
+- Priority Queue使ってバカ正直にシミュレートしたら案の定TLE
+- Aiを小さい順にCjの大きなものに書き換えていけば良い
+- 考慮漏れでRE出てグダグダやってたら時間切れで死
+
+### ABC128
+
+#### C - Switches
+
+- 本番自力(?)AC
+- 急にbit全探索とか出てくるものだから慌てて<https://qiita.com/drken/items/7c6ff2aa4d8fce1c9361#bit-%E5%85%A8%E6%8E%A2%E7%B4%A>をパク……参考にして書いた。
+
+#### D - equeue
+
+- Cで時間食ったのも相まって間に合わず、deque自作して復讐予定
+- 考察はできたものの、deque持ってなかったから実装がつらみ……
+
 ### AGC033
 
 #### A - Darker and Darker
@@ -135,3 +162,8 @@ long = x * y;
 
 - 参考：<https://ufcpp.net/study/algorithm/col_heap.htm>
 - 参考というかパクリ元というか、一応自分で書いてる
+
+#### デック
+
+- 参考：<https://qiita.com/Camypaper/items/de6d576fe5513743a50e#deque>
+- 自作とパクリの中間くらいと言い張る
