@@ -29,11 +29,11 @@ namespace D___Integer_Cards
             {
                 for(int j = 0 ;j < BiCi[i].B ; j++)
                 {
+                    if(count>=N) break;
                     if(Ai[count] < BiCi[i].C)
                     {
                         Ai[count] = BiCi[i].C;
                         count++;
-                        if(count==N) break;
                     }else{
                         break;
                     }
