@@ -1,35 +1,32 @@
 ﻿using System;
-using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace B___ABC
 {
     class Program
     {
-        static int count;
-        static Regex rx;
         static void Main(string[] args)
         {
             var S = Console.ReadLine();
-            rx = new Regex("ABC");
-            count = 0;
-            var subS = S.Split(new string[]{"AC","BA","BB","CC"},StringSplitOptions.RemoveEmptyEntries);
-
-            foreach(string str in subS)
-            {
-                replaceABC(str);
-            }
-            Console.WriteLine(count);
+            var countAll = S.Replace("BC","D")
+            .Split(new char[]{'B','C'},StringSplitOptions.RemoveEmptyEntries)
+            .Select(s => countSwap(s))
+            .Sum();
+            
+            Console.WriteLine(countAll);
         }
-        static string replaceABC(string S)
+
+        static long countSwap(string S)
         {
-            int _count = rx.Matches(S).Count;
-            if(_count > 0)
+            long countA = 0;
+            long swap = 0;
+            foreach(char c in S)
             {
-                count += _count;
-                return replaceABC(S.Replace("ABC","BCA"));
-            }else{
-                return "0";
+                if(c == 'A') countA += 1;
+                if(c == 'D') swap += countA;
             }
+
+            return swap;
         }
     }
 }
