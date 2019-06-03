@@ -147,7 +147,8 @@ long = x * y;
 
 - 解説読んだ
 - ほぼ考察系、実装難易度だとAより楽かも
-- テストケースの結果が一個だけint範囲はみ出るっぽいので、intだとAC取れない罠が
+- テストケースの結果が1個だけint範囲はみ出るっぽいので、intだとAC取れない罠が
+- もう全部longでいいんじゃないかな
 
 ### ARC037
 
@@ -182,3 +183,7 @@ long = x * y;
 
 - 参考：<https://qiita.com/Camypaper/items/de6d576fe5513743a50e#deque>
 - 自作とパクリの中間くらいと言い張る
+
+#### UnionFind
+
+- ABC120-Dのときに使ったものを流用、参考ページ<https://qiita.com/ofutonfuton/items/c17dfd33fc542c222396>
