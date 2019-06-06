@@ -171,6 +171,7 @@ long = x * y;
 <https://atcoder.jp/contests/abc061/tasks/abc061_>
 
 - 自力AC、300点はだいぶ安定してきた
+- ↓のEnergyDrinkCollectorとやることはほぼ同じ、↓だと範囲の都合で配列はキツいけど
 
 #### ABC121 C -Energy Drink Collector
 
