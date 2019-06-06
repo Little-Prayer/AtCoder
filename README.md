@@ -172,6 +172,14 @@ long = x * y;
 
 - 自力AC、300点はだいぶ安定してきた
 
+#### ABC121 C -Energy Drink Collector
+
+<https://atcoder.jp/contests/abc121/tasks/abc121_>
+
+- 自力AC、PriorityQueue使う意味あった？
+- 安い方から順番に買っていって、本数集まったら完了、単純な貪欲
+- ぶっちゃけPQ使うより素直にソートしろ
+
 ### AtCoder400点
 
 #### ABC121 D - XOR World
