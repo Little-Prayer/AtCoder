@@ -164,6 +164,14 @@ long = x * y;
 - ↓を読みながらチマチマと、ほとんど参考コードをC#にコンバートしてるだけ感
 - <https://qiita.com/drken/items/dc53c683d6de8aeacf5a#d-%E5%95%8F%E9%A1%8C---knapsack-1>
 
+### AtCoder300点
+
+#### ABC061 C - Big Array
+
+<https://atcoder.jp/contests/abc061/tasks/abc061_>
+
+- 自力AC、300点はだいぶ安定してきた
+
 ### AtCoder400点
 
 #### ABC121 D - XOR World
