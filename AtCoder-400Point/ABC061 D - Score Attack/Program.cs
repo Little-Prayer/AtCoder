@@ -19,11 +19,22 @@ namespace ABC061_D___Score_Attack
 
             var distance = new long[N+1];
             distance[1] = 0;
-            for(i = 2 ; i < N ; i++) distance[i] = long.MaxValue;
+            for(int i = 2 ; i < N ; i++) distance[i] = long.MaxValue;
 
             var update = new bool[N+1];
-
             
+
+            for(int i = 0 ; i < N ; i++)
+                for(int j = 0 ; j < N+1 ; j++) update[j] = false;
+                for(int k = 0 ; k < M ; k++)
+                {
+                    if(distance[edges[k].from] == long.MaxValue) continue;
+                    if(distance[edges[k].to] > distance[edges[k].from] + edges[k].cost)
+                    {
+                        distance[edges[k].to] = distance[edges[k].from] + edges[k].cost;
+                    }
+                }
+
         }
         struct Edge
         {
