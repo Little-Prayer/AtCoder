@@ -183,6 +183,13 @@ long = x * y;
 
 ### AtCoder400点
 
+#### ABC061 D - Score Attack
+
+<https://atcoder.jp/contests/abc061/tasks/abc061_>
+
+- 解説見た、Bellman-Ford法初使用
+- ここまで解いた400点では最難な気がする
+
 #### ABC121 D - XOR World
 
 - 自力AC、2進数の各桁ごとに1~A-1と1~Bにおける1の出現回数を計算し、その差を取って奇数ならその桁が1になるという塩梅。
