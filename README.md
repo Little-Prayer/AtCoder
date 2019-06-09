@@ -168,14 +168,14 @@ long = x * y;
 
 #### ABC061 C - Big Array
 
-<https://atcoder.jp/contests/abc061/tasks/abc061_>
+<https://atcoder.jp/contests/abc061/tasks/abc061_c>
 
 - 自力AC、300点はだいぶ安定してきた
 - ↓のEnergyDrinkCollectorとやることはほぼ同じ、↓だと範囲の都合で配列はキツいけど
 
 #### ABC121 C -Energy Drink Collector
 
-<https://atcoder.jp/contests/abc121/tasks/abc121_>
+<https://atcoder.jp/contests/abc121/tasks/abc121_c>
 
 - 自力AC、PriorityQueue使う意味あった？
 - 安い方から順番に買っていって、本数集まったら完了、単純な貪欲
@@ -183,9 +183,21 @@ long = x * y;
 
 ### AtCoder400点
 
+#### ABC054 D - Mixing Experiment
+
+<https://atcoder.jp/contests/abc054/tasks/abc054_d>
+
+- 自力AC、400点もそこそこ自力できてきたかしら
+- 変形ナップサック？物質aとbの配合量とそれに対する購入費用の配列を作り、薬品を追加しながら配列を更新していく。
+- つまり三重ループなので結構な力技。解説の方法と違い、「i個めの薬品を追加した」という情報を配列に含んでないので、
+多重更新しないように最大値から更新したのが私的工夫ポイント
+
+
+
+
 #### ABC061 D - Score Attack
 
-<https://atcoder.jp/contests/abc061/tasks/abc061_>
+<https://atcoder.jp/contests/abc061/tasks/abc061_d>
 
 - 解説見た、Bellman-Ford法初使用
 - ここまで解いた400点では最難な気がする
