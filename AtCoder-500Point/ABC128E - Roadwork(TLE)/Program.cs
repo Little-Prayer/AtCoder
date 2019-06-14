@@ -28,7 +28,7 @@ namespace ABC128E___Roadwork
             foreach (Construction c in constructions)
             {
                 int index = lower_bound(walker, c.start);
-                for (int i = index; walker[i] < c.end; i++) if (result[i] == -1) result[i] = c.place;
+                for (int i = index; i < Q && walker[i] < c.end; i++) if (result[i] == -1) result[i] = c.place;
             }
             foreach (int i in result) Console.WriteLine(i);
 
@@ -41,7 +41,7 @@ namespace ABC128E___Roadwork
 
             while (low < high)
             {
-                var mid = ((high - low) >> 1) + low;
+                int mid = ((high - low) >> 1) + low;
                 if (array[mid] < value)
                 {
                     low = mid + 1;
