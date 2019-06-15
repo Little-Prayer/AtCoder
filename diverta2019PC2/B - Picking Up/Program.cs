@@ -36,6 +36,7 @@ namespace B___Picking_Up
             {
                 for(int j = 0 ; j < N ; j++)
                 {
+                    if(i ==j)continue;
                     if(isChecked[i,j]) continue;
                     var checkCount = 1;
                     isChecked[i,j] = true;
