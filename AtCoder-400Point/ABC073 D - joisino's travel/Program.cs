@@ -32,20 +32,29 @@ namespace ABC073_D___joisino_s_travel
                         if (distance[to, via] + distance[via, from] < distance[from, to]) distance[from, to] = distance[to, via] + distance[via, from];
                     }
 
+            var distanceR = new int[R, R];
+            for (int i = 0; i < R; i++) for (int j = 0; j < R; j++) distanceR[i, j] = distance[ri[i], ri[j]];
+
             var dp = new long[1 << R];
             dp[0] = 0;
             for (int i = 1; i < dp.Length; i++) dp[i] = int.MaxValue;
-
-            var distanceR = new int[R, R];
-            for (int i = 0; i < R; i++) for (int j = 0; j < R; j++) distanceR[i, j] = distance[ri[i], ri[j]];
+            for (int i = 0; i < R; i++) dp[1 << i] = 0;
 
             for (int i = 1; i < dp.Length; i++)
             {
                 for (int j = 0; j < R; j++)
                 {
-
+                    if (((1 << j) & i) > 0)
+                    {
+                        for (int k = 0; k < R; k++)
+                        {
+                            if (k == j) continue;
+                            if (((1 << k) & i) > 0) dp[i] = Math.Min(dp[i], dp[i - j] + distanceR[j, k]);
+                        }
+                    }
                 }
             }
+            Console.WriteLine(dp[(1 << R) - 1]);
         }
     }
 }
