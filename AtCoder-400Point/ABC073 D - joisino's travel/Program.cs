@@ -13,9 +13,9 @@ namespace ABC073_D___joisino_s_travel
 
             var ri = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
 
-            var distance = new int[N + 1, N + 1];
-            for (int i = 0; i < N + 1; i++) for (int j = 0; j < N + 1; j++) distance[i, j] = int.MaxValue;
-            for (int i = 1; i < N + 1; i++) distance[i, i] = 0;
+            var distance = new long[N + 1, N + 1];
+            for (int i = 0; i < N + 1; i++) for (int j = 0; j < N + 1; j++) distance[i, j] = long.MaxValue;
+            for (int i = 0; i < N + 1; i++) distance[i, i] = 0;
 
             for (int i = 0; i < M; i++)
             {
@@ -28,16 +28,16 @@ namespace ABC073_D___joisino_s_travel
                 for (int to = 1; to < N + 1; to++)
                     for (int from = 1; from < N + 1; from++)
                     {
-                        if (distance[to, via] == int.MaxValue || distance[via, from] == int.MaxValue) continue;
-                        if (distance[to, via] + distance[via, from] < distance[from, to]) distance[from, to] = distance[to, via] + distance[via, from];
+                        if (distance[to, via] == long.MaxValue || distance[via, from] == long.MaxValue) continue;
+                        distance[from, to] = Math.Min(distance[from, to], distance[from, via] + distance[via, to]);
                     }
 
-            var distanceR = new int[R, R];
+            var distanceR = new long[R, R];
             for (int i = 0; i < R; i++) for (int j = 0; j < R; j++) distanceR[i, j] = distance[ri[i], ri[j]];
 
             var dp = new long[1 << R];
             dp[0] = 0;
-            for (int i = 1; i < dp.Length; i++) dp[i] = int.MaxValue;
+            for (int i = 1; i < dp.Length; i++) dp[i] = long.MaxValue;
             for (int i = 0; i < R; i++) dp[1 << i] = 0;
 
             for (int i = 1; i < dp.Length; i++)
@@ -49,7 +49,7 @@ namespace ABC073_D___joisino_s_travel
                         for (int k = 0; k < R; k++)
                         {
                             if (k == j) continue;
-                            if (((1 << k) & i) > 0) dp[i] = Math.Min(dp[i], dp[i - j] + distanceR[j, k]);
+                            if (((1 << k) & i) > 0) dp[i] = Math.Min(dp[i], dp[i - (1 << j)] + distanceR[j, k]);
                         }
                     }
                 }
