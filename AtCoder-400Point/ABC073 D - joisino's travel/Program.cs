@@ -35,26 +35,21 @@ namespace ABC073_D___joisino_s_travel
             var distanceR = new long[R, R];
             for (int i = 0; i < R; i++) for (int j = 0; j < R; j++) distanceR[i, j] = distance[ri[i], ri[j]];
 
-            var dp = new long[1 << R];
-            dp[0] = 0;
-            for (int i = 1; i < dp.Length; i++) dp[i] = long.MaxValue;
-            for (int i = 0; i < R; i++) dp[1 << i] = 0;
+            var dp = new long[1 << R, R];
+            for (int i = 0; i < (1 << R); i++) for (int j = 0; j < R; j++) dp[i, j] = long.MaxValue;
+            for (int i = 0; i < R; i++) dp[1 << i, i] = 0;
 
-            for (int i = 1; i < dp.Length; i++)
-            {
-                for (int j = 0; j < R; j++)
+            for (int bit = 1; bit < (1 << R); bit++)
+                for (int last = 0; last < R; last++)
                 {
-                    if (((1 << j) & i) > 0)
-                    {
-                        for (int k = 0; k < R; k++)
-                        {
-                            if (k == j) continue;
-                            if (((1 << k) & i) > 0) dp[i] = Math.Min(dp[i], dp[i - (1 << j)] + distanceR[j, k]);
-                        }
-                    }
+                    if ((bit & (1 << last)) == 0) continue;
+                    for (int prev = 0; prev < R; prev++)
+                        if (((1 << prev) & (bit - (1 << last))) > 0) dp[bit, last] = Math.Min(dp[bit, last], dp[bit - (1 << last), prev] + distanceR[last, prev]);
                 }
-            }
-            Console.WriteLine(dp[(1 << R) - 1]);
+
+            long result = long.MaxValue;
+            for (int i = 0; i < R; i++) result = Math.Min(result, dp[(1 << R) - 1, i]);
+            Console.WriteLine(result);
         }
     }
 }
