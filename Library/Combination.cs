@@ -1,3 +1,5 @@
+//ネタ元　http://drken1215.hatenablog.com/entry/2018/06/08/210000
+
 long combMax;
 long combMOD;
 
