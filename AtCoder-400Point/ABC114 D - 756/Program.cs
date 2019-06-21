@@ -39,18 +39,26 @@ namespace ABC114_D___756
                 }
             }
 
-            var count23 = 0;
-            var count4over = 0;
+            var count2 = 0;
+            var count4 = 0;
+            var count14 = 0;
+            var count24 = 0;
+            var count74 = 0;
 
             foreach (int item in factoring.Values)
             {
-                if (item == 2 || item == 3) count23 += 1;
-                if (item >= 4) count4over += 1;
+                if (item >= 2) count2 += 1;
+                if (item >= 4) count4 += 1;
+                if (item >= 14) count14 += 1;
+                if (item >= 24) count24 += 1;
+                if (item >= 74) count74 += 1;
             }
 
             var result = 0;
-            result += count23 * count4over * (count4over - 1) / 2;
-            result += count4over * (count4over - 1) * (count4over - 2) / 6;
+            result += count4 * (count4 - 1) * (count2 - 2) / 2;
+            result += count14 * (count4 - 1);
+            result += count24 * (count2 - 1);
+            result += count74;
             Console.WriteLine(result);
         }
     }
