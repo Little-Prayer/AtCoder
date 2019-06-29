@@ -1,11 +1,11 @@
 //ネタ元　http://drken1215.hatenablog.com/entry/2018/06/08/210000
 
-long combMax;
-long combMOD;
+static long combMax;
+static long combMOD;
 
-long[] factorial;
-long[] inverse;
-long[] factInv;
+static long[] factorial;
+static long[] inverse;
+static long[] factInv;
 
 static void combInit(long _max, long _mod)
 {
@@ -23,7 +23,7 @@ static void combInit(long _max, long _mod)
     {
         factorial[i] = factorial[i - 1] * i % combMOD;
         inverse[i] = combMOD - inverse[combMOD % i] * (combMOD / i) % combMOD;
-        factInv[i] = factInv[i - 1] * inv[i] % combMOD;
+        factInv[i] = factInv[i - 1] * inverse[i] % combMOD;
     }
 }
 
@@ -31,5 +31,5 @@ static long combination(int n, int k)
 {
     if (n < k) return 0;
     if (n < 0 || k < 0) return 0;
-    return factorial[n] * (factinv[k] * factinv[n - k] % combMOD) % combMOD;
+    return factorial[n] * (factInv[k] * factInv[n - k] % combMOD) % combMOD;
 }
