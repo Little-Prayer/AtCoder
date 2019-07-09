@@ -9,9 +9,9 @@ namespace M___Candies
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(solver());
+            Console.WriteLine(solver().ToString());
         }
-        static int solver()
+        static ModInt solver()
         {
             var NK = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
             var N = NK[0];
@@ -24,8 +24,23 @@ namespace M___Candies
             for (int i = 0; i <= Ai[0]; i++) DP[0, i] = 1;
 
             var cumlative = new ModInt[N, K + 1];
-            for (int i = 1; i <= Ai[0]; i++) cumlative[0, i] = cumlative[0, i - 1] + DP[0, i];
+            cumlative[0, 0] = 1;
+            for (int i = 1; i <= K; i++) cumlative[0, i] = cumlative[0, i - 1] + DP[0, i];
 
+            for (int kids = 1; kids < N; kids++)
+            {
+                for (int candy = 0; candy <= Ai[kids]; candy++)
+                    DP[kids, candy] = cumlative[kids - 1, candy];
+
+                for (int candy = Ai[kids] + 1; candy <= K; candy++)
+                    DP[kids, candy] = cumlative[kids - 1, candy] - cumlative[kids - 1, candy - Ai[kids] - 1];
+
+                cumlative[kids, 0] = 1;
+                for (int i = 1; i <= K; i++)
+                    cumlative[kids, i] = cumlative[kids, i - 1] + DP[kids, i];
+            }
+
+            return DP[N - 1, K];
         }
     }
 
