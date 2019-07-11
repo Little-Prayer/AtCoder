@@ -18,6 +18,7 @@ namespace ABC131_E___FriendShips
             if (K > (N - 1) * (N - 2) / 2) return "-1";
 
             var graph = new StringBuilder();
+            graph.AppendLine((N - 1 + ((N - 1) * (N - 2) / 2 - K)).ToString());
             for (int i = 2; i <= N; i++) graph.AppendLine($"1 {i}");
 
             var counter = 0;
