@@ -1,7 +1,7 @@
-//パクリ元　https://atcoder.jp/contests/arc067/submissions/5337727
-
 using MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions;
 using MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute;
+
+//パクリ元　https://atcoder.jp/contests/arc067/submissions/5337727
 struct ModInt
 {
     const int MOD = 1000000007;
