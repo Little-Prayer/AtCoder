@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using MethodImplOptions = System.Runtime.CompilerServices.MethodImplOptions;
 using MethodImplAttribute = System.Runtime.CompilerServices.MethodImplAttribute;
 
@@ -33,7 +32,8 @@ namespace P___Independent_Set
         static ModInt solver(int currentNode, int isBlack)
         {
             if (DP[currentNode, isBlack] != 0) return DP[currentNode, isBlack];
-            var kids = connection[currentNode].Where(s => s != parent[currentNode]).ToList();
+            connection[currentNode].Remove(parent[currentNode]);
+            var kids = connection[currentNode];
 
             if (kids.Count == 0) return DP[currentNode, isBlack] = 1;
 
