@@ -31,7 +31,7 @@ namespace ABC131_E___FriendShips
                     counter += 1;
                 }
             }
-            return "";
+            return graph.ToString().TrimEnd('\r', '\n');
         }
     }
 }
