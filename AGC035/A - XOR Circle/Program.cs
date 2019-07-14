@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace A___XOR_Circle
 {
@@ -12,38 +13,33 @@ namespace A___XOR_Circle
         {
             var N = int.Parse(Console.ReadLine());
             var Ai = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
-            var isChecked = new bool[N];
 
-            Array.Sort(Ai);
-
-            for (int i = 1; i < N; i++)
+            var all0 = true;
+            for (int i = 0; i < N; i++)
             {
-                if (Array.BinarySearch(Ai, Ai[0] ^ Ai[i]) > 0)
+                if (Ai[i] != 0)
                 {
-                    for (int j = 0; j < N; j++) isChecked[i] = false;
-                    isChecked[0] = true;
-                    isChecked[i] = true;
-                    var check1 = Ai[i];
-                    var check2 = Ai[0] ^ Ai[i];
-
-                    for (int k = 0; k < N - 2; k++)
-                    {
-                        var nextNumber = Array.BinarySearch(Ai, check2);
-                        if (nextNumber > 0 && !isChecked[nextNumber])
-                        {
-                            isChecked[nextNumber] = true;
-                            var temp = check1 ^ check2;
-                            check1 = check2;
-                            check2 = temp;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    if (check2 == Ai[0]) return true;
+                    all0 = false;
+                    break;
                 }
             }
+            if (all0) return true;
+
+            if (N % 3 != 0) return false;
+
+            var distAi = Ai.Distinct().ToArray();
+            if (distAi.Length == 3)
+            {
+                if (Ai.Count(s => s == distAi[0]) == Ai.Count(s => s == distAi[1]))
+                    if (Ai.Count(s => s == distAi[1]) == Ai.Count(s => s == distAi[2]))
+                        if ((distAi[0] ^ distAi[1]) == distAi[2])
+                            return true;
+            }
+            if (distAi.Length == 2)
+            {
+                if (Ai.Count(s => s == 0) == N / 3) return true;
+            }
+
             return false;
         }
     }
