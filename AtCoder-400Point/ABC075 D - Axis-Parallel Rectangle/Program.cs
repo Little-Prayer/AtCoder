@@ -5,7 +5,7 @@ namespace ABC075_D___Axis_Parallel_Rectangle
 {
     class Program
     {
-        static void Main(string[] args)
+        static void main(string[] args)
         {
             var NK = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
             var N = NK[0];
