@@ -33,7 +33,7 @@ namespace E___Sequence_Decomposing
             while (right - left > 1)
             {
                 int mid = (left + right) / 2;
-                if (list[mid] <= number)
+                if (list[mid] < number)
                 {
                     right = mid;
                 }
