@@ -13,14 +13,15 @@ namespace D___Digits_Parade
             var DP = new long[13, S.Length + 1];
             DP[0, 0] = 1;
 
-            for (int i = 1; i < N.Length + 1; i++)
+            for (int i = 0; i < N.Length; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
                     if (N[i] != -1 && N[i] != j) continue;
                     for (int k = 0; k < 13; k++)
                     {
-                        DP[(10 * k + j) % 13, i] += DP[k, i - 1] % MOD;
+                        DP[(10 * k + j) % 13, i + 1] += DP[k, i];
+                        DP[(10 * k + j) % 13, i + 1] %= MOD;
                     }
                 }
             }
