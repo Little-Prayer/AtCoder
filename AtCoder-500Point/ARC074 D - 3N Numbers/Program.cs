@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ARC074_D___3N_Numbers
 {
@@ -13,134 +14,33 @@ namespace ARC074_D___3N_Numbers
             var front = new PriorityQueue<long>(true);
             for (int i = 0; i < N; i++) front.Push(Ai[i]);
 
-            var center = new Deque<long>(N);
-            for (int i = 0; i < N; i++) center.PushFront(Ai[i + N]);
+
+            var center = new long[N];
+            Array.Copy(Ai, N, center, 0, N);
 
             var back = new PriorityQueue<long>(false);
             for (int i = 0; i < N; i++) back.Push(Ai[i + 2 * N]);
 
-            for (int i = 0; i < N; i++)
+            var sumFront = new long[N + 1];
+            sumFront[0] = Ai.Take(N).Sum();
+            for (int i = 1; i < N + 1; i++)
             {
-                var removeFront = center.CheckFront() - front.Top();
-                var removeBack = back.Top() - center.checkBack();
-                if (removeFront < 0 && removeBack < 0)
-                {
-                    if (removeFront > removeBack)
-                    {
-                        center.PopBack();
-                    }
-                    else
-                    {
-                        center.PopFront();
-                    }
-                }
-                else
-                {
-                    if (removeFront > removeBack)
-                    {
-                        front.Pop();
-                        front.Push(center.PopFront());
-                    }
-                    else
-                    {
-                        back.Pop();
-                        back.Push(center.PopBack());
-                    }
-                }
+                front.Push(center[i - 1]);
+                sumFront[i] = sumFront[i - 1] - front.Pop() + center[i - 1];
             }
 
-
-
-        }
-    }
-    class Deque<T>
-    {
-        T[] buffer;
-        int capacity, count, front;
-
-        public Deque(int _capacity) { buffer = new T[capacity = 1 << _capacity]; }
-        public Deque() { buffer = new T[capacity = 16]; }
-        public Deque(T[] items)
-        {
-            buffer = items;
-            capacity = items.Length;
-            count = items.Length;
-        }
-
-
-
-        public void PushFront(T item)
-        {
-            if (capacity == count) extend();
-            count += 1;
-            if (front == 0) front = capacity;
-            front -= 1;
-            buffer[front] = item;
-        }
-        public void PushBack(T item)
-        {
-            if (capacity == count) extend();
-            count += 1;
-            buffer[(front + count - 1) % capacity] = item;
-        }
-        public T PopFront()
-        {
-            if (count == 0) throw new InvalidOperationException("collection is empty");
-            var ret = buffer[front];
-            front = front + 1 % capacity;
-            count -= 1;
-            return ret;
-        }
-        public T PopBack()
-        {
-            if (count == 0) throw new InvalidOperationException("collection is empty");
-            var ret = (front + count - 1) % capacity;
-            count -= 1;
-            return buffer[ret];
-        }
-
-        public T CheckFront()
-        {
-            if (count == 0) throw new InvalidOperationException("collection is empty");
-            return buffer[front];
-        }
-        public T checkBack()
-        {
-            if (count == 0) throw new InvalidOperationException("collection is empty");
-            var ret = (front + count - 1) % capacity;
-            return buffer[ret];
-        }
-
-        private void extend()
-        {
-            var newBuffer = new T[capacity << 1];
-            if (front + count > capacity)
+            var sumBack = new long[N + 1];
+            sumBack[N] = Ai.Skip(2 * N).Sum();
+            for (int i = N - 1; i >= 0; i--)
             {
-                Array.Copy(buffer, front, newBuffer, 0, capacity - front);
-                Array.Copy(buffer, 0, newBuffer, capacity - front, count - capacity + front);
+                back.Push(center[i]);
+                sumBack[i] = sumBack[i + 1] - back.Pop() + center[i];
             }
-            else
-            {
-                Array.Copy(buffer, front, newBuffer, 0, count);
-            }
-            buffer = newBuffer;
-            front = 0;
-            capacity <<= 1;
-        }
 
-        public T[] toArray()
-        {
-            var ret = new T[count];
-            if (front + count > capacity)
-            {
-                Array.Copy(buffer, front, ret, 0, capacity - front);
-                Array.Copy(buffer, 0, ret, capacity - front, count - capacity + front);
-            }
-            else
-            {
-                Array.Copy(buffer, front, ret, 0, count);
-            }
-            return ret;
+            var score = new long[N + 1];
+            for (int i = 0; i < N + 1; i++) score[i] = sumFront[i] - sumBack[i];
+
+            Console.WriteLine(score.Max());
         }
     }
     class PriorityQueue<T> where T : IComparable
