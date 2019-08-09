@@ -18,32 +18,29 @@ namespace ABC117_D___XXOR
                 for (int digit = binaryK.Length; digit < Convert.ToString(a, 2).Length; digit++)
                 {
                     var mask = 1 << digit;
-                    result += (a & mask) ^ 0;
+                    result += a & mask;
                 }
             }
-            var DP = new long[binaryK.Length + 1, 2, 2];
+            var DP = new long[binaryK.Length + 1, 2];
             for (int digit = binaryK.Length - 1; digit >= 0; digit--)
             {
                 if (K == 0) break;
                 var mask = 1 << digit;
                 long xorSum0 = 0;
-                for (int i = 0; i < N; i++) xorSum0 += (Ai[i] & mask) ^ 0;
-                long xorSum1 = 0;
-                for (int i = 0; i < N; i++) xorSum1 += (Ai[i] & mask) ^ mask;
-                DP[digit, 0, 0] = Math.Max(DP[digit + 1, 1, 0], DP[digit + 1, 0, 0]) + xorSum0;
-                DP[digit, 1, 0] = Math.Max(DP[digit + 1, 1, 0], DP[digit + 1, 0, 0]) + xorSum1;
+                for (int i = 0; i < N; i++) xorSum0 += Ai[i] & mask;
+                long xorSum1 = N * mask - xorSum0;
                 if ((mask & K) == 0)
                 {
-                    DP[digit, 1, 1] = 0;
-                    DP[digit, 0, 1] = Math.Max(DP[digit + 1, 0, 1], DP[digit + 1, 1, 1]) + xorSum0;
+                    DP[digit, 0] = DP[digit + 1, 0] + xorSum0;
+                    DP[digit, 1] = DP[digit + 1, 1] + Math.Max(xorSum0, xorSum1);
                 }
                 else
                 {
-                    DP[digit, 1, 1] = Math.Max(DP[digit + 1, 1, 1], DP[digit + 1, 0, 1]) + xorSum1;
-                    DP[digit, 0, 0] = Math.Max(DP[digit, 0, 0], Math.Max(DP[digit + 1, 1, 1], DP[digit + 1, 0, 1]) + xorSum0);
+                    DP[digit, 0] = DP[digit + 1, 0] + xorSum1;
+                    DP[digit, 1] = Math.Max(DP[digit + 1, 0] + xorSum0, DP[digit + 1, 1] + Math.Max(xorSum0, xorSum1));
                 }
             }
-            Console.WriteLine(Math.Max(Math.Max(DP[0, 0, 0], DP[0, 0, 1]), Math.Max(DP[0, 0, 1], DP[0, 1, 0])) + result);
+            Console.WriteLine(Math.Max(DP[0, 0], DP[0, 1]) + result);
         }
     }
 }
