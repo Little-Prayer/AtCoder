@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-class PriorityQueue<T> where T : IComparable
+class PriorityQueue<T> where T : IComparable<T>
 {
     private List<T> nodes;
     private Boolean isAsc;
