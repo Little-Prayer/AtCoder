@@ -4,76 +4,74 @@ using System.Text;
 
 namespace ABC109_D___Make_Them_Even
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
             var HW = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
-            var map = new int[HW[0] + 1, HW[1] + 1];
-            var oddPoints = new Queue<Point>();
-            for (int i = 0; i < HW[0]; i++)
+            var H = HW[0];
+            var W = HW[1];
+            var map = new int[H + 1, W + 1];
+            for (int i = 0; i < H; i++)
             {
                 var read = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
-                for (int j = 0; j < HW[1]; j++)
+                for (int j = 0; j < W; j++)
                 {
                     map[i + 1, j + 1] = read[j];
-                    if (read[j] % 2 == 1) oddPoints.Enqueue(new Point(i + 1, j + 1));
                 }
             }
 
             var moveCount = 0;
             var moveLog = new StringBuilder();
-            while (oddPoints.Count > 1)
+            for (int h = 1; h < H + 1; h++)
             {
-                var from = oddPoints.Dequeue();
-                var to = oddPoints.Dequeue();
-                if (from.x < to.x)
+                if (h.isOdd())
                 {
-                    for (int i = from.x; i < to.x; i++)
+                    if (map[h - 1, 1].isOdd())
                     {
-                        moveLog.AppendLine($"{from.y} {i} {from.y} {i + 1}");
-                        moveCount += 1;
+                        moveCount++;
+                        moveLog.AppendLine($"{h - 1} {1} {h} {1}");
+                        map[h - 1, 1]--;
+                        map[h, 1]++;
+                    }
+                    for (int w = 1; w < W; w++)
+                    {
+                        if (map[h, w].isOdd())
+                        {
+                            moveCount++;
+                            moveLog.AppendLine($"{h} {w} {h} {w + 1}");
+                            map[h, w]--;
+                            map[h, w + 1]++;
+                        }
                     }
                 }
                 else
                 {
-                    for (int i = from.x; i > to.x; i--)
+                    if (map[h - 1, W].isOdd())
                     {
-                        moveLog.AppendLine($"{from.y} {i} {from.y} {i - 1}");
-                        moveCount += 1;
+                        moveCount++;
+                        moveLog.AppendLine($"{h - 1} {W} {h} {W}");
+                        map[h - 1, W]--;
+                        map[h, W]++;
                     }
-                }
-
-                if (from.y < to.y)
-                {
-                    for (int i = from.y; i < to.y; i++)
+                    for (int w = W; w > 1; w--)
                     {
-                        moveLog.AppendLine($"{i} {to.x} {i + 1} {to.x}");
-                        moveCount += 1;
-                    }
-                }
-                else
-                {
-                    for (int i = from.y; i > to.y; i--)
-                    {
-                        moveLog.AppendLine($"{i} {to.x} {i - 1} {to.x}");
-                        moveCount += 1;
+                        if (map[h, w].isOdd())
+                        {
+                            moveCount++;
+                            moveLog.AppendLine($"{h} {w} {h} {w - 1}");
+                            map[h, w]--;
+                            map[h, w - 1]++;
+                        }
                     }
                 }
             }
             Console.WriteLine(moveCount);
-            Console.WriteLine(moveLog.ToString());
+            Console.Write(moveLog.ToString());
         }
-    }
-    struct Point
-    {
-        public int x;
-        public int y;
-
-        public Point(int _y, int _x)
+        public static bool isOdd(this int n)
         {
-            x = _x;
-            y = _y;
+            return n % 2 == 1;
         }
     }
 }
