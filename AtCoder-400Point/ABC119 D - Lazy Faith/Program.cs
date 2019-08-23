@@ -19,14 +19,14 @@ namespace ABC119_D___Lazy_Faith
 
             foreach (long q in questions)
             {
-                var forwardShrine = lowerBound(shrines, q);
-                var backwardShrine = forwardShrine != 0 ? forwardShrine - 1 : 0;
+                var FS = lowerBound(shrines, q);
+                var BS = FS != 0 ? FS - 1 : 0;
 
-                var forwardTemple = lowerBound(temples, q);
-                var backwardTemple = forwardTemple != 0 ? forwardTemple - 1 : 0;
+                var FT = lowerBound(temples, q);
+                var BT = FT != 0 ? FT - 1 : 0;
             }
         }
-        static long lowerBound(long[] array, long start)
+        static int lowerBound(long[] array, long start)
         {
             int left = -1;
             int right = array.Length;
@@ -38,5 +38,13 @@ namespace ABC119_D___Lazy_Faith
             }
             return right;
         }
+        static long searchingNearest(long[] array, long start)
+        {
+            var index = lowerBound(array, start);
+            if (index == 0) return array[0];
+            if (index == array.Length) return array[array.Length - 1];
+            return array[index] - start < start - array[index - 1] ? array[index] : array[index - 1];
+        }
+
     }
 }
