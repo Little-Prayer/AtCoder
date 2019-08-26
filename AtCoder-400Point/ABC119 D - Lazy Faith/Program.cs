@@ -21,9 +21,23 @@ namespace ABC119_D___Lazy_Faith
             {
                 var FS = lowerBound(shrines, q);
                 var BS = FS != 0 ? FS - 1 : 0;
+                if (FS == ABQ[0]) FS = FS - 1;
 
                 var FT = lowerBound(temples, q);
                 var BT = FT != 0 ? FT - 1 : 0;
+                if (FT == ABQ[1]) FT = FT - 1;
+
+                long result = long.MaxValue;
+                Func<long, long, long> f = (a, b) => Math.Min(result, Math.Abs(q - a) + Math.Abs(a - b));
+                result = f(shrines[FS], temples[FT]);
+                result = f(shrines[FS], temples[BT]);
+                result = f(shrines[BS], temples[FT]);
+                result = f(shrines[BS], temples[BT]);
+                result = f(temples[FT], shrines[FS]);
+                result = f(temples[FT], shrines[BS]);
+                result = f(temples[BT], shrines[FS]);
+                result = f(temples[BT], shrines[BS]);
+                Console.WriteLine(result);
             }
         }
         static int lowerBound(long[] array, long start)
@@ -38,13 +52,5 @@ namespace ABC119_D___Lazy_Faith
             }
             return right;
         }
-        static long searchingNearest(long[] array, long start)
-        {
-            var index = lowerBound(array, start);
-            if (index == 0) return array[0];
-            if (index == array.Length) return array[array.Length - 1];
-            return array[index] - start < start - array[index - 1] ? array[index] : array[index - 1];
-        }
-
     }
 }
