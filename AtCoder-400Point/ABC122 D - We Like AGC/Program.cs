@@ -9,37 +9,32 @@ namespace ABC122_D___We_Like_AGC
         static void Main(string[] args)
         {
             var N = int.Parse(Console.ReadLine());
-            var DP = new ModInt[N + 1, 4];
-            for (int i = 0; i < 4; i++)
+            var DP = new ModInt[N + 1, 4, 4, 4];
+            DP[0, 0, 0, 0] = 1;
+            for (int n = 1; n < N + 1; n++)
             {
-                DP[1, i] = 1;
-                DP[2, i] = 4;
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        for (int k = 0; k < 4; k++)
+                        {
+                            for (int l = 0; l < 4; l++)
+                            {
+                                if (j == 1 && k == 2 && l == 3) continue;
+                                if (j == 2 && k == 1 && l == 3) continue;
+                                if (j == 1 && k == 3 && l == 2) continue;
+                                if (i == 1 && j == 2 && l == 3) continue;
+                                if (i == 1 && k == 2 && l == 3) continue;
+                                DP[n, j, k, l] += DP[n - 1, i, j, k];
+                            }
+                        }
+                    }
+                }
             }
-            DP[3, 0] = 16;
-            DP[3, 1] = 14;
-            DP[3, 2] = 15;
-            DP[3, 3] = 16;
-            for (int i = 4; i < N + 1; i++)
-            {
-                DP[i, 0] += DP[i - 3, 0] * 14;
-                DP[i, 0] += DP[i - 3, 1] * 16;
-                DP[i, 0] += DP[i - 3, 2] * 15;
-                DP[i, 0] += DP[i - 3, 3] * 16;
-                DP[i, 1] += DP[i - 3, 0] * 9;
-                DP[i, 1] += DP[i - 3, 1] * 13;
-                DP[i, 1] += DP[i - 3, 2] * 13;
-                DP[i, 1] += DP[i - 3, 3] * 14;
-                DP[i, 2] += DP[i - 3, 0] * 14;
-                DP[i, 2] += DP[i - 3, 1] * 15;
-                DP[i, 2] += DP[i - 3, 2] * 15;
-                DP[i, 2] += DP[i - 3, 3] * 15;
-                DP[i, 3] += DP[i - 3, 0] * 14;
-                DP[i, 3] += DP[i - 3, 1] * 16;
-                DP[i, 3] += DP[i - 3, 2] * 15;
-                DP[i, 3] += DP[i - 3, 3] * 16;
-
-            }
-            Console.WriteLine(DP[N, 0] + DP[N, 1] + DP[N, 2] + DP[N, 3]);
+            ModInt result = 0;
+            for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++) for (int k = 0; k < 4; k++) result += DP[N, i, j, k];
+            Console.WriteLine(result);
         }
     }
 
