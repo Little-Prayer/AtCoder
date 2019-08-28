@@ -12,36 +12,41 @@ namespace ARC061_D___すぬけ君の塗り絵
             var H = HWN[0];
             var W = HWN[1];
             var N = HWN[2];
+            long MOD = 1000000007;
 
-            var colored = new HashSet<Point>();
+            var colored = new HashSet<long>();
             for (int i = 0; i < N; i++)
             {
                 var ab = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
-                colored.Add(new Point(ab[0], ab[1]));
+                colored.Add(ab[0] + ab[1] * MOD);
             }
 
-            var checking = new HashSet<Point>();
-            foreach (Point p in colored)
+            var checking = new HashSet<long>();
+            foreach (long p in colored)
             {
-                for (int a = p.X - 1; a <= p.X + 1; a++)
+                var h = p % MOD;
+                var w = p / MOD;
+                for (long a = h - 1; a <= h + 1; a++)
                 {
-                    for (int b = p.Y - 1; b <= p.Y + 1; b++)
+                    for (long b = w - 1; b <= w + 1; b++)
                     {
                         if (a <= 1 || a >= H || b <= 1 || b >= W) continue;
-                        checking.Add(new Point(a, b));
+                        checking.Add(a + b * MOD);
                     }
                 }
             }
 
             var result = new long[10];
-            foreach (Point p in checking)
+            foreach (long p in checking)
             {
                 var count = 0;
-                for (int h = p.X - 1; h <= p.X + 1; h++)
+                var height = p % MOD;
+                var width = p / MOD;
+                for (long h = height - 1; h <= height + 1; h++)
                 {
-                    for (int w = p.Y - 1; w <= p.Y + 1; w++)
+                    for (long w = width - 1; w <= width + 1; w++)
                     {
-                        if (colored.Contains(new Point(h, w))) count++;
+                        if (colored.Contains(h + w * MOD)) count++;
                     }
                 }
                 result[count]++;
@@ -50,16 +55,6 @@ namespace ARC061_D___すぬけ君の塗り絵
             result[0] = (H - 2) * (W - 2);
             for (int i = 1; i < 10; i++) result[0] -= result[i];
             for (int i = 0; i < 10; i++) Console.WriteLine(result[i]);
-        }
-    }
-    struct Point
-    {
-        public int X;
-        public int Y;
-        public Point(int x, int y)
-        {
-            X = x;
-            Y = y;
         }
     }
 }
