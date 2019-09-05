@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>CODE_FESTIVAL_2016_Grand_Final_C___Cheating_Nim</RootNamespace>
+  </PropertyGroup>
+
+</Project>
