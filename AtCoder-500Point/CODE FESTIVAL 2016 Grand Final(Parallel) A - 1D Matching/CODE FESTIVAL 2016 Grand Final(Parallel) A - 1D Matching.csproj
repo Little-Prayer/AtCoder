@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>CODE_FESTIVAL_2016_Grand_Final_Parallel__A___1D_Matching</RootNamespace>
+  </PropertyGroup>
+
+</Project>
