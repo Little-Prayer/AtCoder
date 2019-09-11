@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace COLOCON2018_D___すぬけそだて__トレーニング__
@@ -8,56 +7,55 @@ namespace COLOCON2018_D___すぬけそだて__トレーニング__
     {
         static void Main(string[] args)
         {
+            foreach (int i in solver()) Console.WriteLine(i);
+        }
+        static int[] solver()
+        {
             var NX = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
             var N = NX[0]; var X = NX[1];
 
+            if (N == 1) return new int[] { X };
+
             var T = new int[N];
-            T[0] = int.Parse(Console.ReadLine());
-            var offset = new List<int>();
-            offset.Add(X);
+            for (int i = 0; i < N; i++) T[i] = int.Parse(Console.ReadLine());
+
+            var transition = new int[N];
+            for (int i = 0; i < N; i++) transition[i] = lower_bound(T, T[i] + X);
+
+            var DP = new int[N + 1, N + 1];
+            DP[0, 1] = X;
+            for (int t = 0; t < N; t++)
+            {
+                var trans = transition[t];
+                for (int k = 1; k < N; k++)
+                {
+                    DP[trans, k + 1] = Math.Max(DP[trans, k + 1], DP[t, k] + X);
+                    if (trans - 1 > t) DP[trans - 1, k + 1] = Math.Max(DP[trans - 1, k + 1], DP[t, k] + T[trans - 1] - T[t]);
+                }
+            }
+            var result = new int[N];
+            result[0] = X;
             for (int i = 1; i < N; i++)
             {
-                T[i] = int.Parse(Console.ReadLine());
-                offset.Add(Math.Min(X, T[i] - T[i - 1]));
+                for (int j = 0; j < N; j++)
+                {
+                    result[i] = Math.Max(Math.Max(result[i], DP[j, i + 1]), result[i - 1]);
+                }
             }
-
-            var result = new int[N];
-            result[N - 1] = offset.Sum();
-            for (int K = N - 2; K > 0; K--)
+            return result;
+        }
+        static int lower_bound(int[] array, long key)
+        {
+            int left = -1;
+            int right = array.Length;
+            while (right - left > 1)
             {
-                var index = 0;
-                var sum = int.MaxValue;
-                for (int i = 0; i < K; i++)
-                {
-                    if (sum > offset[i] + offset[i + 1])
-                    {
-                        sum = offset[i] + offset[i + 1];
-                        index = i;
-                    }
-                }
-                var newOffset = new List<int>();
-                for (int i = 0; i < K; i++)
-                {
-                    if (i == index)
-                    {
-                        newOffset.Add(Math.Max(sum, X));
-                    }
-                    else if (i == index + 1)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        newOffset.Add(offset[i]);
-                    }
-                }
+                int mid = left + (right - left) / 2;
 
-                result[K] = newOffset.Sum();
-                offset = newOffset;
+                if (array[mid] >= key) right = mid;
+                else left = mid;
             }
-
-            result[0] = X;
-            foreach (int i in result) Console.WriteLine(i);
+            return right;
         }
     }
 }
