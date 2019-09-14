@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>COLOCON2018_D___すぬけそだて__トレーニング__</RootNamespace>
+  </PropertyGroup>
+
+</Project>
