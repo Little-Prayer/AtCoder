@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace CF2018_qual_A_C___半分
 {
