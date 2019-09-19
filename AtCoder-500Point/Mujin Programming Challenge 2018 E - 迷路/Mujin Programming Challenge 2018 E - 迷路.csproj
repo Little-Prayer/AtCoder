@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>Mujin_Programming_Challenge_2018_E___迷路</RootNamespace>
+  </PropertyGroup>
+
+</Project>
