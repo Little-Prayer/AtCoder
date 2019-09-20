@@ -24,7 +24,6 @@ namespace M_SOLUTIONSプロコンオープン_D___Maximum_Sum_of_Minimum
             var numbers = new int[N];
             var queue = new Queue<int>();
             queue.Enqueue(1);
-            var Cmax = 0;
             while (queue.Count > 0)
             {
                 var current = queue.Dequeue();
