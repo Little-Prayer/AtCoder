@@ -22,12 +22,12 @@ namespace codeFlyer_D___ハンコ
             }
 
             var compH = Math.Min(2 * N, H); var compW = Math.Min(2 * M, W);
-            var compPaper = new int[compH, compW];
+            var compPaper = new int[compH + 1, compW + 1];
             for (int h = 0; h < N; h++)
             {
                 for (int w = 0; w < M; w++)
                 {
-                    if (stamp[h, w] == '#')
+                    if (stamp[h, w])
                     {
                         compPaper[h, w]++;
                         compPaper[compH - N + h + 1, w]--;
@@ -37,11 +37,17 @@ namespace codeFlyer_D___ハンコ
                 }
             }
 
-            for (int h = 0; h < compH - 1; h++)
+            for (int h = 0; h < compH; h++)
             {
-                for (int w = 0; w < compW - 1; w++)
+                for (int w = 0; w < compW; w++)
                 {
                     compPaper[h + 1, w] += compPaper[h, w];
+                }
+            }
+            for (int w = 0; w < compW; w++)
+            {
+                for (int h = 0; h < compH; h++)
+                {
                     compPaper[h, w + 1] += compPaper[h, w];
                 }
             }
@@ -55,8 +61,28 @@ namespace codeFlyer_D___ハンコ
                 }
             }
 
+            var left = int.MaxValue; var right = int.MaxValue; var top = int.MaxValue; var bottom = int.MaxValue;
+            for (int h = 0; h < N; h++)
+            {
+                for (int w = 0; w < M; w++)
+                {
+                    if (stamp[h, w])
+                    {
+                        left = Math.Min(left, w);
+                        right = Math.Min(right, M - w - 1);
+                        top = Math.Min(top, h);
+                        bottom = Math.Min(bottom, N - h - 1);
+                    }
+                }
+            }
 
-
+            if (left != int.MaxValue)
+            {
+                result += (H - compH) * (W - right - left);
+                result += (W - compW) * (H - top - bottom);
+                result -= (H - compH) * (W - compW);
+            }
+            return result;
         }
     }
 }
