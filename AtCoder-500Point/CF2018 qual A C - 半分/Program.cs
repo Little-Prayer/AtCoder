@@ -16,7 +16,20 @@ namespace CF2018_qual_A_C___半分
             var NK = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
             var N = NK[0]; var K = NK[1];
             var A = Array.ConvertAll(Console.ReadLine().Split(' '), long.Parse);
+
             var logA = A.Select(a => a == 0 ? 0 : (int)Math.Log((double)a, 2.0) + 1).ToArray();
+            if (logA.Sum() <= K)
+            {
+                var result = new ModInt(1);
+                foreach (long i in logA) result *= i + 1;
+                var exclusion = new ModInt(1);
+                foreach (long i in logA) exclusion *= i;
+                return result - exclusion;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 
