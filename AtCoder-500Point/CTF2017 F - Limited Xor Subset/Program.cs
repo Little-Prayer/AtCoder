@@ -18,7 +18,7 @@ namespace CTF2017_F___Limited_Xor_Subset
                 else numbers.Add(a, 1);
             }
 
-            var DP = new long[numbers.Count + 1, 100000 + 1];
+            var DP = new int[numbers.Count + 1, 131072 + 1];
             DP[0, 0] = 1;
             var number = 0;
             foreach (KeyValuePair<int, int> pair in numbers)
@@ -28,11 +28,23 @@ namespace CTF2017_F___Limited_Xor_Subset
                 var count = pair.Value;
                 for (int i = 0; i < 100000 + 1; i++)
                 {
-                    DP[number, i] += DP[number - 1, i] * (count / 2 + 1);
-                    DP[number, i] %= MOD;
+                    if (DP[number - 1, i] == 0) continue;
 
-                    DP[number, i % key] += DP[number - 1, i] * (count + 1) / 2;
-                    DP[number, i % key] %= MOD;
+                    long temp1 = DP[number - 1, i];
+                    for (int j = 0; j < count - 1; j++)
+                    {
+                        temp1 *= 2;
+                        temp1 %= MOD;
+                    }
+                    long temp2 = DP[number, i];
+                    temp2 += temp1;
+                    temp2 %= MOD;
+                    DP[number, i] = (int)temp2;
+
+                    long temp3 = DP[number, i ^ key];
+                    temp3 += temp1;
+                    temp3 %= MOD;
+                    DP[number, i ^ key] = (int)temp3;
                 }
             }
             Console.WriteLine(DP[numbers.Count, K]);
