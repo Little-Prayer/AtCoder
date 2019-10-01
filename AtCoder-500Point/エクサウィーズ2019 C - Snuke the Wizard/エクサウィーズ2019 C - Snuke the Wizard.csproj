@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>エクサウィーズ2019_C___Snuke_the_Wizard</RootNamespace>
+  </PropertyGroup>
+
+</Project>
