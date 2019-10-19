@@ -15,20 +15,23 @@ namespace D
             {
                 for (int b = a - 1; b >= 0; b--)
                 {
-                    var left = lower_bound(L, L[a] + L[b]);
+                    var left = lower_bound(N, k => L[k] < L[a] + L[b]);
                     result += Math.Max(0, b - left);
                 }
             }
             Console.WriteLine(result);
         }
-        static int lower_bound(int[] array, int key)
+
+        static int lower_bound(int length, Func<int, bool> pred)
         {
             int ng = -1;
-            int ok = array.Length;
-            while (Math.Abs(ok - ng) > 1)
+            int ok = length;
+
+            while (Math.Abs(ng - ok) > 1)
             {
                 int mid = (ok + ng) / 2;
-                if (array[mid] < key) ok = mid;
+
+                if (pred(mid)) ok = mid;
                 else ng = mid;
             }
             return ok;
