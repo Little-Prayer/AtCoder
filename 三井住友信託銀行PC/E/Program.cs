@@ -44,6 +44,7 @@ namespace E
                 {
                     colorCount[2]++;
                 }
+                else result = 0;
             }
             Console.WriteLine(result);
         }
