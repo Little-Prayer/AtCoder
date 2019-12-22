@@ -22,29 +22,42 @@ namespace E
             }
 
             var N = new int[H + 1, W + 1];
-            for (int i = 0; i < H; i++) for (int j = 0; j < W; j++) N[i + 1, j + 1] = Math.Abs(A[i, j] - B[i, j]) + 14400;
-            bool[,,] map = new bool[28800, H + 1, W + 1];
-            for (int i = 0; i < 28800; i++) for (int j = 0; j < H + 1; j++) for (int k = 0; k < W + 1; k++) map[i, j, k] = false;
-            map[N[1, 1] + 14400, 1, 1] = true;
+            var max = 0;
+            for (int i = 0; i < H; i++)
+            {
+                for (int j = 0; j < W; j++)
+                {
+                    N[i + 1, j + 1] = Math.Abs(A[i, j] - B[i, j]);
+                    max = Math.Max(N[i + 1, j + 1], max);
+                }
+            }
 
-            for (var h = 1; h < H + 1; h++)
+            max *= H + W;
+
+            bool[,,] map = new bool[max + 1, H + 1, W + 1];
+            map[N[1, 1], 1, 1] = true;
+
+            for (int h = 1; h < H + 1; h++)
             {
                 for (int w = 1; w < W + 1; w++)
                 {
-                    for (int n = 0; n < 28800; n++)
+                    for (int n = 0; n <= max; n++)
                     {
                         if (map[n, h - 1, w] || map[n, h, w - 1])
                         {
-                            map[N[h, w] - n, h, w] = true;
+                            map[Math.Abs(N[h, w] - n), h, w] = true;
                             map[N[h, w] + n, h, w] = true;
-
                         }
                     }
                 }
             }
-            for (int n = 0; n < 28800; n++)
+            for (int n = 0; n <= max; n++)
             {
-                if (map[n, H, W]) Console.WriteLine(n - 14400);
+                if (map[n, H, W])
+                {
+                    Console.WriteLine(n);
+                    break;
+                }
             }
         }
     }
