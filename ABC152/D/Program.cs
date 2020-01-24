@@ -6,52 +6,21 @@ namespace E
     {
         static void Main(string[] args)
         {
-            var MOD = 1000000007;
-            var A = 12345678900000;
-            var b = 100000;
-            A %= MOD;
-            Console.WriteLine(A * modinv(b, MOD) % MOD);
-        }
-        static long modinv(long a, long mod)
-        {
-            long b = mod;
-            long u = 1;
-            long v = 0;
-            while (b != 0)
+            var N = int.Parse(Console.ReadLine());
+            var B = new int[10, 10];
+            for (int i = 1; i < N + 1; i++)
             {
-                long t = a / b;
-                a -= t * b;
-                var temp1 = a;
-                a = b;
-                b = temp1;
-                u -= t * v;
-                var temp2 = u;
-                u = v;
-                v = temp2;
+                var s = i.ToString();
+                B[int.Parse(s[0].ToString()), int.Parse(s[s.Length - 1].ToString())] += 1;
             }
-            u %= mod;
-            if (u < 0) u += mod;
-            return u;
-        }
 
-        static long LCM(long A, long B)
-        {
-            var gcd = GCD(A, B);
-            var temp = A / gcd;
-            return temp * B;
-        }
-
-        static long GCD(long A, long B)
-        {
-            if (A < B)
-                return GCD(B, A);
-            while (B != 0)
+            var result = 0;
+            for (int i = 1; i < N + 1; i++)
             {
-                var remainder = A % B;
-                A = B;
-                B = remainder;
+                var s = i.ToString();
+                result += B[int.Parse(s[s.Length - 1].ToString()), int.Parse(s[0].ToString())];
             }
-            return A;
+            Console.WriteLine((result));
         }
     }
 }
