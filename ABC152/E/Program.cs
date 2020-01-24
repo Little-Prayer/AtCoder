@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace E
 {
@@ -9,33 +11,62 @@ namespace E
             var N = int.Parse(Console.ReadLine());
             var A = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
             var MOD = 1000000007;
+            var searchPrime = 1000;
 
-            var lcd = 1;
-            for (int i = 2; i <= 1000; i++)
+            var isPrime = new bool[searchPrime + 1];
+            for (int i = 2; i < searchPrime + 1; i++) isPrime[i] = true;
+            for (int i = 2; i < searchPrime + 1; i++)
             {
-                var check = true;
-                for (int j = 0; j < N; j++)
+                if (isPrime[i])
                 {
-                    if ((A[j] % i) != 0)
+                    for (int j = i + 1; j < searchPrime + 1; j++)
                     {
-                        check = false;
-                        break;
+                        if ((j % i) == 0) isPrime[j] = false;
                     }
                 }
-                if (check)
+            }
+
+            var primeFactor = new Dictionary<int, int>();
+            for (int i = 0; i < searchPrime; i++)
+            {
+                if (isPrime[i]) primeFactor.Add(i, 0);
+            }
+
+            var primes = primeFactor.Keys.ToArray();
+            foreach (int ai in A)
+            {
+                var temp = ai;
+                foreach (int prime in primes)
                 {
-                    lcd *= i;
+                    if (temp == 1) break;
+                    var count = 0;
+                    while ((temp % prime) == 0)
+                    {
+                        temp /= prime;
+                        count++;
+                    }
+                    if (primeFactor[prime] < count) primeFactor[prime] = count;
+                }
+                if (!primeFactor.ContainsKey(temp)) primeFactor.Add(temp, 1);
+            }
+
+            var lcd = 1L;
+            foreach (int prime in primeFactor.Keys)
+            {
+                for (int i = 0; i < primeFactor[prime]; i++)
+                {
+                    lcd *= prime;
                     lcd %= MOD;
-                    for (int k = 0; k < N; k++) A[k] /= i;
-                    Console.WriteLine(i);
                 }
             }
-            for (int i = 0; i < N; i++)
+
+            var result = 0L;
+            foreach (int ai in A)
             {
-                lcd *= A[i];
-                lcd %= MOD;
+                result += (lcd * modinv(ai, MOD)) % MOD;
+                result %= MOD;
             }
-            Console.WriteLine(lcd);
+            Console.WriteLine(result);
         }
         static long modinv(long a, long mod)
         {
@@ -57,26 +88,6 @@ namespace E
             u %= mod;
             if (u < 0) u += mod;
             return u;
-        }
-
-        static long LCM(long A, long B)
-        {
-            var gcd = GCD(A, B);
-            var temp = A / gcd;
-            return temp * B;
-        }
-
-        static long GCD(long A, long B)
-        {
-            if (A < B)
-                return GCD(B, A);
-            while (B != 0)
-            {
-                var remainder = A % B;
-                A = B;
-                B = remainder;
-            }
-            return A;
         }
     }
 }
