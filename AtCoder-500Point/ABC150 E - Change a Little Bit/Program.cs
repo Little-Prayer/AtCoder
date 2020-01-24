@@ -15,9 +15,14 @@ namespace ABC150_E___Change_a_Little_Bit
             var result = 0L;
             for (int i = 0; i < N; i++)
             {
-
+                for (int k = 0; k <= N - 1 - i; k++)
+                {
+                    result += C[i] * power(2, i) * Combination.combination(N - i - 1, k);
+                    result %= MOD;
+                }
             }
-
+            result *= power(2, N);
+            Console.WriteLine(result);
         }
         static long power(long a, long b)
         {
