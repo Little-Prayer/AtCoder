@@ -25,4 +25,15 @@ class ElementCounter<T>
             }
         }
     }
+    public void Add(T item)
+    {
+        if (dic.ContainsKey(item))
+        {
+            dic.Add(item, 0);
+        }
+        else
+        {
+            dic[item] += 1;
+        }
+    }
 }
