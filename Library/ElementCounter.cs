@@ -1,39 +1,53 @@
 using System.Collections.Generic;
 class ElementCounter<T>
 {
-    public Dictionary<T, long> dic;
+    public Dictionary<T, long> Dic;
 
     public ElementCounter()
     {
-        dic = new Dictionary<T, long>();
+        Dic = new Dictionary<T, long>();
     }
     public long this[T key]
     {
         get
         {
-            return dic[key];
-        }
-        set
-        {
-            if (dic.ContainsKey(key))
+            if (Dic.ContainsKey(key))
             {
-                dic.Add(key, value);
+                return Dic[key];
             }
             else
             {
-                dic[key] = value;
+                return 0;
+            }
+        }
+        set
+        {
+            if (Dic.ContainsKey(key))
+            {
+                Dic[key] = value;
+            }
+            else
+            {
+                Dic.Add(key, value);
             }
         }
     }
     public void Add(T item)
     {
-        if (dic.ContainsKey(item))
+        if (Dic.ContainsKey(item))
         {
-            dic.Add(item, 0);
+            Dic[item] += 1;
         }
         else
         {
-            dic[item] += 1;
+            Dic.Add(item, 1);
+        }
+    }
+    public void Remove(T item)
+    {
+        if (Dic.ContainsKey(item))
+        {
+            Dic[item] = Dic[item] != 0 ? Dic[item] - 1 : 0;
         }
     }
 }

@@ -23,26 +23,72 @@ namespace ABC146_E___Rem_of_Sum_is_Num
             for (int i = 1; i < N + 1; i++) accumA[i] = accumA[i - 1] + minus1A[i - 1];
             accumA = accumA.Select(n => n % K).ToArray();
 
-            var dic = new Dictionary<long, long>();
-            for (int i = 1; i < Math.Min(K, N + 1); i++)
-            {
-                if (dic.ContainsKey(accumA[i])) dic[accumA[i]] += 1;
-                else dic.Add(accumA[i], 1);
-            }
+            var dic = new ElementCounter<long>();
+            for (int i = 1; i < Math.Min(K, N + 1); i++) dic.Add(accumA[i]);
 
             var result = 0L;
-            result += dic.ContainsKey(0) ? dic[0] : 0;
+            result += dic[0];
             for (int i = 1; i < N + 1; i++)
             {
-                if (dic.ContainsKey(accumA[i])) dic[accumA[i]] -= 1;
-                if (N >= i + K - 1)
-                {
-                    if (dic.ContainsKey(accumA[i + K - 1])) dic[accumA[i + K - 1]] += 1;
-                    else dic.Add(accumA[i + K - 1], 1);
-                }
-                result += dic.ContainsKey(accumA[i]) ? dic[accumA[i]] : 0;
+                dic.Remove(accumA[i]);
+                if (N >= i + K - 1) dic.Add(accumA[i + K - 1]);
+
+                result += dic[accumA[i]];
             }
             return result;
+        }
+
+    }
+    class ElementCounter<T>
+    {
+        public Dictionary<T, long> Dic;
+
+        public ElementCounter()
+        {
+            Dic = new Dictionary<T, long>();
+        }
+        public long this[T key]
+        {
+            get
+            {
+                if (Dic.ContainsKey(key))
+                {
+                    return Dic[key];
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            set
+            {
+                if (Dic.ContainsKey(key))
+                {
+                    Dic[key] = value;
+                }
+                else
+                {
+                    Dic.Add(key, value);
+                }
+            }
+        }
+        public void Add(T item)
+        {
+            if (Dic.ContainsKey(item))
+            {
+                Dic[item] += 1;
+            }
+            else
+            {
+                Dic.Add(item, 1);
+            }
+        }
+        public void Remove(T item)
+        {
+            if (Dic.ContainsKey(item))
+            {
+                Dic[item] = Dic[item] != 0 ? Dic[item] - 1 : 0;
+            }
         }
     }
 }
