@@ -6,7 +6,7 @@ namespace D
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var S = Console.ReadLine();
         }
     }
 }

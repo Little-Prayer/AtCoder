@@ -6,7 +6,8 @@ namespace A
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var SW = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
+            Console.WriteLine(SW[0] > SW[1] ? "safe" : "unsafe");
         }
     }
 }
