@@ -10,7 +10,7 @@ namespace E
             var N = NM[0]; var M = NM[1];
             var isUsed = new bool[N + 1];
             var pairCount = 0;
-            var offset = 1;
+            var offset = N - 1;
             for (int i = 1; i < N + 1; i++)
             {
                 if (pairCount >= M) break;
@@ -19,7 +19,7 @@ namespace E
                 isUsed[i] = true;
                 isUsed[i + offset] = true;
                 Console.WriteLine($"{i} {i + offset}");
-                offset++;
+                offset--;
                 pairCount++;
             }
         }
