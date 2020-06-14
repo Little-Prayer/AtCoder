@@ -1,35 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace D
 {
     class Program
     {
-        static List<int> A2;
         static void Main(string[] args)
+        {
+            Console.WriteLine(solver());
+        }
+        static int solver()
         {
             var N = int.Parse(Console.ReadLine());
             var A = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
-            A2 = A.OrderBy(n => n).ToList();
+            Array.Sort(A);
+            if (N == 1) return 1;
+            if (A[1] == 1) return 0;
+            if (A[0] == 1) return 1;
 
-            var result = 0;
-            foreach (int a in A) if (check(a)) result++;
-            Console.WriteLine(result);
-        }
-        static bool check(int a)
-        {
-            var count = 0;
-            if (A2.BinarySearch(a) + 1 != A2.Count && A2[A2.BinarySearch(a) + 1] == a) return false;
-            for (int i = 1; i <= Math.Sqrt(a); i++)
+            var Amax = A[N - 1];
+            var check = new bool[Amax + 1];
+            for (int i = 0; i < Amax + 1; i++) check[i] = true;
+            for (int i = 0; i < N; i++)
             {
-                if ((a % i) == 0)
+                if (!check[A[i]]) continue;
+                for (int j = 2 * A[i]; j < Amax + 1; j += A[i]) check[j] = false;
+            }
+            var result = new bool[N];
+            for (int i = 0; i < N; i++)
+            {
+                if (i + 1 < N && A[i] == A[i + 1])
                 {
-                    if (A2.BinarySearch(i) >= 0) count++;
-                    if (A2.BinarySearch(a / i) >= 0) count++;
+                    result[i] = false;
+                    result[i + 1] = false;
+                    check[A[i]] = false;
+                }
+                else
+                {
+                    result[i] = check[A[i]];
                 }
             }
-            return count == 1;
+            return result.Count(r => r);
         }
     }
 }
