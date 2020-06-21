@@ -7,20 +7,19 @@ namespace C
     {
         static void Main(string[] args)
         {
-            var N = long.Parse(Console.ReadLine()) - 1;
+            var N = long.Parse(Console.ReadLine());
             var digits = new List<long>();
-            while (N > 26)
+            while (N > 0)
             {
+                N -= 1;
                 digits.Add(N % 26);
-                N = N / 26;
+                N /= 26;
             }
-            digits.Add(N);
             digits.Reverse();
-            for (int i = 0; i < digits.Count - 1; i++)
+            for (int i = 0; i < digits.Count; i++)
             {
-                Console.Write((char)(digits[i] + 'a' - 1));
+                Console.Write((char)(digits[i] + 'a'));
             }
-            Console.Write((char)(digits[digits.Count - 1] + 'a'));
         }
     }
 }
