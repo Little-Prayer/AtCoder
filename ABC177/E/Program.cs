@@ -12,7 +12,12 @@ namespace E
             var filterMax = (int)Math.Sqrt(A.Max());
             var filter = new bool[filterMax + 1];
             for (int i = 0; i < filterMax + 1; i++) filter[i] = true;
-            var filterCount = new int[A.Max()];
+            var filterCount = new int[A.Max() + 1];
+
+            for (int i = 0; i < N; i++)
+            {
+                if (A[i] > filterMax) filterCount[A[i]]++;
+            }
 
             for (int i = 2; i <= filterMax; i++)
             {
@@ -23,7 +28,8 @@ namespace E
                     if ((A[j] % i) == 0)
                     {
                         filterCount[i]++;
-                        filterCount[A[j] / i]++;
+                        if (filterMax < (A[j] / i))
+                            filterCount[A[j] / i]++;
                     }
                 }
 
@@ -32,7 +38,7 @@ namespace E
 
 
             if (filterCount.Max() == N) Console.WriteLine("not coprime");
-            else if (filterCount.Max() > 2) Console.WriteLine("setwise coprime");
+            else if (filterCount.Max() > 1) Console.WriteLine("setwise coprime");
             else Console.WriteLine("pairwise coprime");
         }
     }
