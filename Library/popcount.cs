@@ -1,4 +1,4 @@
-static int popcount(int X)
+static int popcount(long X)
 {
     int result = 0;
     while (X > 0)
