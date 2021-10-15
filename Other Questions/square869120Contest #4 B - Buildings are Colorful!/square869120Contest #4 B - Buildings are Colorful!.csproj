@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>square869120Contest__4_B___Buildings_are_Colorful_</RootNamespace>
-  </PropertyGroup>
-
-</Project>
