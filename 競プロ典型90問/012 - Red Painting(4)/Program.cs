@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace _012___Red_Painting_4_
 {
@@ -7,7 +8,32 @@ namespace _012___Red_Painting_4_
         static void Main(string[] args)
         {
             var HW = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
+            var H = HW[0]; var W = HW[1];
+            var isRed = Enumerable.Repeat<bool>(false, H * W + 1).ToArray();
+            var union = new UnionFind(H * W);
+            var Q = int.Parse(Console.ReadLine());
 
+            for (int i = 0; i < Q; i++)
+            {
+                var read = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
+
+                if (read[0] == 1)
+                {
+                    var r = read[1]; var c = read[2];
+                    var point = (r - 1) * W + c;
+                    isRed[point] = true;
+                    if (r > 1 && isRed[(r - 2) * W + c]) union.unite(point, (r - 2) * W + c);
+                    if (r < H && isRed[r * W + c]) union.unite(point, r * W + c);
+                    if (c > 1 && isRed[(r - 1) * W + c - 1]) union.unite(point, (r - 1) * W + c - 1);
+                    if (c < W && isRed[(r - 1) * W + c + 1]) union.unite(point, (r - 1) * W + c + 1);
+                }
+                else
+                {
+                    var ra = read[1]; var ca = read[2]; var rb = read[3]; var cb = read[4];
+                    var pointA = (ra - 1) * W + ca; var pointB = (rb - 1) * W + cb;
+                    Console.WriteLine(isRed[pointA] && isRed[pointB] && union.sameRoot(pointA, pointB) ? "Yes" : "No");
+                }
+            }
         }
     }
     public class UnionFind
