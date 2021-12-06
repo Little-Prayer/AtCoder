@@ -8,12 +8,17 @@ namespace _015___Don_t_be_too_close_6_
         {
             var N = int.Parse(Console.ReadLine());
             long mod = 1000000007;
-            Combination.combInit(100000, mod);
+            Combination.combInit(1000000, mod);
 
             for (int k = 1; k <= N; k++)
             {
-                long total = 0;
-
+                long subtotal = 0;
+                for (int a = 1; a <= (N / k) + 1; a++)
+                {
+                    subtotal += Combination.combination(N - (a - 1) * (k - 1), a);
+                    subtotal %= mod;
+                }
+                Console.WriteLine(subtotal);
             }
         }
     }
