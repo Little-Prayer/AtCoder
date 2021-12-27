@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace F
 {
@@ -6,7 +7,10 @@ namespace F
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var N = int.Parse(Console.ReadLine());
+            var A = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
+            var B = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
+
         }
     }
 }

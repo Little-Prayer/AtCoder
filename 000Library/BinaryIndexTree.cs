@@ -1,0 +1,6 @@
+using System;
+
+struct BIT
+{
+
+}

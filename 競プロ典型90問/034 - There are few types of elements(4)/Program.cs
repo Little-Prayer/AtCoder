@@ -12,7 +12,21 @@ namespace _034___There_are_few_types_of_elements_4_
             var A = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
 
             var result = 0;
-
+            var forward = 0;
+            var backward = 0;
+            var ec = new ElementCounter<int>();
+            while (forward < N)
+            {
+                ec.Add(A[forward]);
+                while (ec.Dic.Keys.Count > K)
+                {
+                    ec.Remove(A[backward]);
+                    backward++;
+                }
+                result = Math.Max(result, forward - backward + 1);
+                forward++;
+            }
+            Console.WriteLine(result);
         }
         class ElementCounter<T>
         {
@@ -62,7 +76,8 @@ namespace _034___There_are_few_types_of_elements_4_
             {
                 if (Dic.ContainsKey(item))
                 {
-                    Dic[item] = Dic[item] != 0 ? Dic[item] - 1 : 0;
+                    Dic[item]--;
+                    if (Dic[item] < 1) Dic.Remove(item);
                 }
             }
         }
