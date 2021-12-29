@@ -1,46 +1,48 @@
-class SegmentTree<T>
+using System;
+class SegTree
 {
-    int leaf;
-    T[] data;
-    T unit;
-    Func<T, T, T> operation;
-    Func<T, T, T> update;
-
-    public SegmentTree(int size, T _unit, Func<T, T, T> _operation, Func<T, T, T> _update)
+    int size;
+    int[] tree, lazy;
+    SegTree(int _size)
     {
-        unit = _unit;
-        operation = _operation;
-        update = _update;
-
-        leaf = 1;
-        while (leaf >= size) leaf *= 2;
-        data = new int[2 * leaf - 1];
-        for (int i = 0; i < data.Length; i++) data[i] = unit;
+        size = 1;
+        while (size < _size) size << 1;
+        tree = new int[2 * size + 1];
+        lazy = new int[2 * size + 1];
     }
-
-    void change(int index, T x)
+    void eval(int target)
     {
-        int subs = index + leaf - 1;
-        data[subs] = update(data[subs], x);
-
-        while (root > 0)
+        if (lazy[target] == 0) return;
+        if (target < size - 1)
         {
-            subs = (subs - 1) / 2;
-            data[subs] = operation(data[subs * 2 + 1], data[subs * 2 + 2]);
+            lazy[target * 2 + 1] = Max(lazy[target * 2 + 1], lazy[target]);
+            lazy[target * 2 + 2] = Max(lazy[target * 2 + 2], lazy[target]);
         }
+        tree[target] = Max(tree[target], lazy[target]);
+        lazy[target] = 0;
     }
-
-    public T query(int left, int right, int node = 0, int nodeLeft = 0, int nodeRight = leaf)
+    void update(int left, int right, int value, int current = 0, int rangeLeft = 0, int rangeRight = tree.Length)
     {
-        if (right <= nodeLeft || nodeRight <= left) return unit;
-        if (left <= nodeleft && nodeRight <= right) return data[node];
-        T leftHalf = query(left, right, 2 * node + 1, nodeLeft, (nodeLeft + nodeRight) / 2);
-        T rightHalf = query(left, right, 2 * node + 2, (nodeLeft + nodeRight) / 2, nodeRight);
-        return operation(leftHalf, rightHalf);
+        eval(current);
+        if (left <= rangeleft && rangeRight <= right) lazy[current] = value;
+        else if (left < rangeRight || rangeLeft < right)
+        {
+            update(left, right, value, current * 2 + 1, rangeLeft, (rangeLeft + rangeright) / 2);
+            update(left, right, value, current * 2 + 2, (rangeLeft + rangeRight) / 2, rangeRight);
+            tree[current] = Math.Max(tree[current * 2 + 1], tree[current * 2 + 2]);
+        }
+
     }
-
-    T operater(int i)
+    int query(int left, int right, int current = 0, int rangeLeft = 0, int rangeRight = tree.Length)
     {
-        return data[i + leaf - 1];
+        eval(current);
+        if (right <= rangeleft || rangeRight <= left) return 0;
+        else if (rangeLeft <= left && right <= rangeright) return tree[current];
+        else
+        {
+            var l = query(left, right, current * 2 + 1, rangeLeft, (rangeLeft + rangeRight) / 2);
+            var r = query(left, right, current * 2 + 2, (rangeLeft + rangeRight) / 2, rangeRight);
+            return Max(l, r);
+        }
     }
 }
