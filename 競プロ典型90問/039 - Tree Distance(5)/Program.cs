@@ -27,8 +27,7 @@ namespace _039___Tree_Distance_5_
 
                 return tree[current].descendant;
             }
-            int root = tree.Select((node, i) => (node, i)).Where(x => x.node.connections.Count == 1).First().i;
-            countChildren(0, root);
+            countChildren(0, 1);
 
             Console.WriteLine(tree.Sum(t => t.descendant * (N - t.descendant)));
         }
