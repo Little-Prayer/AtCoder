@@ -31,12 +31,20 @@ namespace _043___Maze_Challenge_with_Lack_of_Sleep_4_
             if (start[0] <= H - 1) deque.PushFront((start[0] + 1, start[1], 2, 0));
             if (start[1] <= H - 1) deque.PushFront((start[0], start[1] + 1, 3, 0));
             if (start[1] >= 1) deque.PushFront((start[0], start[1] - 1, 1, 0));
+
+            while (deque.count > 0)
+            {
+                var current = deque.PopFront();
+                for (int i = 0; i < 4; i++) map[current.row, current.column, i] = current.direction == i ? current.count : current.count + 1;
+
+            }
         }
     }
     class Deque<T>
     {
         T[] buffer;
-        int capacity, count, front;
+        int capacity, front;
+        public int count;
 
         public Deque(int _capacity) { buffer = new T[capacity = 1 << _capacity]; }
         public Deque() { buffer = new T[capacity = 16]; }
