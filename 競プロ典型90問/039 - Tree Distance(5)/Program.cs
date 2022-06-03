@@ -22,10 +22,7 @@ namespace _039___Tree_Distance_5_
             {
                 tree[current].parent = parent;
                 var children = tree[current].connections.Where(x => x != parent);
-                if (children.Count() == 0) tree[current].descendant = 1;
-                else tree[current].descendant = children.Sum(x => countChildren(current, x)) + 1;
-
-                return tree[current].descendant;
+                return tree[current].descendant = children.Sum(x => countChildren(current, x)) + 1;
             }
             countChildren(0, 1);
 
