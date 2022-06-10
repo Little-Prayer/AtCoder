@@ -27,17 +27,37 @@ namespace _043___Maze_Challenge_with_Lack_of_Sleep_4_
             }
 
             var deque = new Deque<(int row, int column, int direction, int count)>();
-            if (start[0] >= 1) deque.PushFront((start[0] - 1, start[1], 0, 0));
-            if (start[0] <= H - 1) deque.PushFront((start[0] + 1, start[1], 2, 0));
-            if (start[1] <= H - 1) deque.PushFront((start[0], start[1] + 1, 3, 0));
-            if (start[1] >= 1) deque.PushFront((start[0], start[1] - 1, 1, 0));
+            if (start[0] >= 1 && map[start[0] - 1, start[1], 0] > 0) deque.PushFront((start[0] - 1, start[1], 0, 0));
+            if (start[0] < H - 1 && map[start[0] + 1, start[1], 2] > 0) deque.PushFront((start[0] + 1, start[1], 2, 0));
+            if (start[1] < W - 1 && map[start[0], start[1] + 1, 3] > 0) deque.PushFront((start[0], start[1] + 1, 3, 0));
+            if (start[1] >= 1 && map[start[0], start[1] - 1, 1] > 0) deque.PushFront((start[0], start[1] - 1, 1, 0));
 
             while (deque.count > 0)
             {
                 var current = deque.PopFront();
-                for (int i = 0; i < 4; i++) map[current.row, current.column, i] = current.direction == i ? current.count : current.count + 1;
+                for (int i = 0; i < 4; i++)
+                    if (current.direction == i) map[current.row, current.column, i] = current.count;
+                    else if (map[current.row, current.column, i] > current.count + 1) map[current.row, current.column, i] = current.count + 1;
 
+
+                if (current.row >= 1 && map[current.row, current.column, 0] < map[current.row - 1, current.column, 0])
+                    if (current.direction == 0) deque.PushFront((current.row - 1, current.column, 0, current.count));
+                    else deque.PushBack((current.row - 1, current.column, 0, current.count + 1));
+
+                if (current.row < H - 1 && map[current.row, current.column, 2] < map[current.row + 1, current.column, 2])
+                    if (current.direction == 2) deque.PushFront((current.row + 1, current.column, 2, current.count));
+                    else deque.PushBack((current.row + 1, current.column, 2, current.count + 1));
+
+                if (current.column < W - 1 && map[current.row, current.column, 3] < map[current.row, current.column + 1, 3])
+                    if (current.direction == 3) deque.PushFront((current.row, current.column + 1, 3, current.count));
+                    else deque.PushBack((current.row, current.column + 1, 3, current.count + 1));
+
+                if (current.column >= 1 && map[current.row, current.column, 1] < map[current.row, current.column - 1, 1])
+                    if (current.direction == 1) deque.PushFront((current.row, current.column - 1, 1, current.count));
+                    else deque.PushBack((current.row, current.column - 1, 1, current.count + 1));
             }
+
+            Console.WriteLine(new int[] { map[goal[0], goal[1], 0], map[goal[0], goal[1], 1], map[goal[0], goal[1], 2], map[goal[0], goal[1], 3] }.Min());
         }
     }
     class Deque<T>
@@ -75,7 +95,7 @@ namespace _043___Maze_Challenge_with_Lack_of_Sleep_4_
         {
             if (count == 0) throw new InvalidOperationException("collection is empty");
             var ret = buffer[front];
-            front = front + 1 % capacity;
+            front = (front + 1) % capacity;
             count -= 1;
             return ret;
         }
