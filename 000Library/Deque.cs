@@ -35,7 +35,7 @@ class Deque<T>
     {
         if (count == 0) throw new InvalidOperationException("collection is empty");
         var ret = buffer[front];
-        front = front + 1 % capacity;
+        front = (front + 1) % capacity;
         count -= 1;
         return ret;
     }
