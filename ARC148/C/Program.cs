@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace C
 {
@@ -20,19 +21,18 @@ namespace C
             }
 
 
-            var coin = new bool[N + 1];
+
             for (int i = 0; i < Q; i++)
             {
-                for (int j = 0; j < N + 1; j++) coin[j] = false;
                 var read2 = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
-                for (int j = 1; j <= read2[0]; j++) coin[read2[j]] = true;
+                var dic = new Dictionary<int, int>();
+                foreach (int j in read2.Skip(1)) dic.Add(j, 0);
 
                 var count = 0;
-                foreach (int r in read2.Skip(1))
+                foreach (int r in dic.Keys)
                 {
-                    count += child[r];
-                    if (coin[parent[r]]) count--;
-                    else count++;
+                    count += child[r] + 1;
+                    if (dic.ContainsKey(parent[r])) count -= 2;
                 }
                 Console.WriteLine(count);
             }
