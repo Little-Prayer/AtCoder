@@ -19,38 +19,33 @@ namespace C
                 tree[read[1]].Add(read[0]);
             }
 
-            var isRoute = new bool[N + 1];
+            var parent = new int[N + 1];
+            parent[Y] = -1;
             var queue = new Queue<int>();
-            queue.Enqueue(X);
+            queue.Enqueue(Y);
             while (true)
             {
                 var current = queue.Dequeue();
-                isRoute[current] = true;
-                if (current == Y) break;
-                foreach (int c in tree[current]) if (!isRoute[c]) queue.Enqueue(c);
-            }
-
-            var route = new List<int>();
-            route.Add(Y);
-            var current2 = Y;
-            var isChecked = new bool[N + 1];
-            while (true)
-            {
-                if (current2 == X) break;
-                isChecked[current2] = true;
-                foreach (int c in tree[current2])
+                if (current == X) break;
+                foreach (int c in tree[current])
                 {
-                    if (isRoute[c] && !isChecked[c])
+                    if (parent[c] == 0)
                     {
-                        route.Add(c);
-                        current2 = c;
-                        break;
+                        parent[c] = current;
+                        queue.Enqueue(c);
                     }
                 }
             }
-            var R = route.ToArray();
-            Array.Reverse(R);
-            Console.WriteLine(string.Join(" ", R));
+
+            var route = new List<int>();
+            var move = X;
+            route.Add(X);
+            while (parent[move] > 0)
+            {
+                route.Add(parent[move]);
+                move = parent[move];
+            }
+            Console.WriteLine(string.Join(" ", route));
         }
     }
 }
