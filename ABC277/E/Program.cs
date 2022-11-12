@@ -9,92 +9,148 @@ namespace E
         {
             var NMK = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
             var N = NMK[0]; var M = NMK[1]; var K = NMK[2];
-            var connectionA = new List<int>[N + 1];
-            var connectionB = new List<int>[N + 1];
-            for (int i = 0; i <= N; i++)
-            {
-                connectionA[i] = new List<int>();
-                connectionB[i] = new List<int>();
-            }
+            var connection = new List<(int node, bool sw)>[2 * N + 1];
+            for (int i = 0; i < connection.Length; i++) { connection[i] = new List<(int, bool)>(); }
             for (int i = 0; i < M; i++)
             {
                 var read = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
                 if (read[2] == 1)
                 {
-                    connectionA[read[0]].Add(read[1]);
-                    connectionA[read[1]].Add(read[0]);
+                    connection[read[0]].Add((read[1], false));
+                    connection[read[1]].Add((read[0], false));
                 }
                 else
                 {
-                    connectionB[read[0]].Add(read[1]);
-                    connectionB[read[1]].Add(read[0]);
+                    connection[read[0] + N].Add((read[1] + N, false));
+                    connection[read[1] + N].Add((read[0] + N, false));
                 }
             }
-            var S = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
-            var sw = new Dictionary<int, int>();
-            for (int i = 0; i < K; i++) sw.Add(S[i], 0);
-            var moveA = new int[N + 1];
-            var moveB = new int[N + 1];
-            for (int i = 0; i <= N; i++)
+            if (K > 0)
             {
-                moveA[i] = int.MaxValue;
-                moveB[i] = int.MaxValue;
+                var sw = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
+                foreach (int s in sw)
+                {
+                    connection[s].Add((s + N, true));
+                    connection[s + N].Add((s, true));
+                }
             }
-            moveA[1] = 0;
-            var que = new Queue<(int point, bool route)>();
-            que.Enqueue((1, true));
-            while (que.Count > 0)
+            var move = new int[2 * N + 1];
+            for (int i = 0; i <= 2 * N; i++) { move[i] = int.MaxValue; }
+            move[1] = 0;
+            var de = new Deque<int>();
+            de.PushFront(1);
+            while (de.count > 0)
             {
-                var current = que.Dequeue();
-                if (current.route)
+                var current = de.PopFront();
+                foreach (var route in connection[current])
                 {
-                    foreach (var r in connectionA[current.point])
+                    if (route.sw)
                     {
-                        if (moveA[r] > moveA[current.point])
-                        {
-                            moveA[r] = moveA[current.point] + 1;
-                            que.Enqueue((r, true));
-                        }
+                        if (move[route.node] <= move[current]) { continue; }
+                        move[route.node] = move[current];
+                        de.PushFront(route.node);
                     }
-                    if (sw.ContainsKey(current.point))
+                    else
                     {
-                        moveB[current.point] = moveA[current.point];
-                        foreach (var r in connectionB[current.point])
-                        {
-                            if (moveB[r] > moveB[current.point])
-                            {
-                                moveB[r] = moveB[current.point] + 1;
-                                que.Enqueue((r, false));
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var r in connectionB[current.point])
-                    {
-                        if (moveB[r] > moveB[current.point])
-                        {
-                            moveB[r] = moveB[current.point] + 1;
-                            que.Enqueue((r, false));
-                        }
-                    }
-                    if (sw.ContainsKey(current.point))
-                    {
-                        moveA[current.point] = moveB[current.point];
-                        foreach (var r in connectionA[current.point])
-                        {
-                            if (moveA[r] > moveA[current.point])
-                            {
-                                moveA[r] = moveA[current.point] + 1;
-                                que.Enqueue((r, true));
-                            }
-                        }
+                        if (move[route.node] <= move[current] + 1) { continue; }
+                        move[route.node] = move[current] + 1;
+                        de.PushBack(route.node);
                     }
                 }
             }
-            if (moveA[N] == int.MaxValue) moveA[N] = -1;
-            Console.WriteLine(moveA[N]);
+            var result = Math.Min(move[N], move[2 * N]);
+            if (result == int.MaxValue) result = -1;
+            Console.WriteLine(result);
+        }
+    }
+    class Deque<T>
+    {
+        T[] buffer;
+        public int capacity, count, front;
+
+        public Deque(int _capacity) { buffer = new T[capacity = 1 << _capacity]; }
+        public Deque() { buffer = new T[capacity = 16]; }
+        public Deque(T[] items)
+        {
+            buffer = items;
+            capacity = items.Length;
+            count = items.Length;
+        }
+
+
+
+        public void PushFront(T item)
+        {
+            if (capacity == count) extend();
+            count += 1;
+            if (front == 0) front = capacity;
+            front -= 1;
+            buffer[front] = item;
+        }
+        public void PushBack(T item)
+        {
+            if (capacity == count) extend();
+            count += 1;
+            buffer[(front + count - 1) % capacity] = item;
+        }
+        public T PopFront()
+        {
+            if (count == 0) throw new InvalidOperationException("collection is empty");
+            var ret = buffer[front];
+            front = (front + 1) % capacity;
+            count -= 1;
+            return ret;
+        }
+        public T PopBack()
+        {
+            if (count == 0) throw new InvalidOperationException("collection is empty");
+            var ret = (front + count - 1) % capacity;
+            count -= 1;
+            return buffer[ret];
+        }
+
+        public T CheckFront()
+        {
+            if (count == 0) throw new InvalidOperationException("collection is empty");
+            return buffer[front];
+        }
+        public T checkBack()
+        {
+            if (count == 0) throw new InvalidOperationException("collection is empty");
+            var ret = (front + count - 1) % capacity;
+            return buffer[ret];
+        }
+
+        private void extend()
+        {
+            var newBuffer = new T[capacity << 1];
+            if (front + count > capacity)
+            {
+                Array.Copy(buffer, front, newBuffer, 0, capacity - front);
+                Array.Copy(buffer, 0, newBuffer, capacity - front, count - capacity + front);
+            }
+            else
+            {
+                Array.Copy(buffer, front, newBuffer, 0, count);
+            }
+            buffer = newBuffer;
+            front = 0;
+            capacity <<= 1;
+        }
+
+        public T[] toArray()
+        {
+            var ret = new T[count];
+            if (front + count > capacity)
+            {
+                Array.Copy(buffer, front, ret, 0, capacity - front);
+                Array.Copy(buffer, 0, ret, capacity - front, count - capacity + front);
+            }
+            else
+            {
+                Array.Copy(buffer, front, ret, 0, count);
+            }
+            return ret;
         }
     }
 }
