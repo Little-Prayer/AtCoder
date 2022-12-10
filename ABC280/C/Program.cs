@@ -6,7 +6,18 @@ namespace C
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var S = Console.ReadLine();
+            var T = Console.ReadLine();
+
+            int result;
+            for (result = 0; result < S.Length; result++)
+            {
+                if (S[result] != T[result])
+                {
+                    break;
+                }
+            }
+            Console.WriteLine(result + 1);
         }
     }
 }
