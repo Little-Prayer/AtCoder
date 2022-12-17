@@ -6,7 +6,8 @@ namespace A
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var N = int.Parse(Console.ReadLine());
+            for (int i = N; i >= 0; i--) Console.WriteLine(i);
         }
     }
 }
