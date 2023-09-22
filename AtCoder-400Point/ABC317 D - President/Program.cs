@@ -1,9 +1,9 @@
 ﻿var N = int.Parse(Console.ReadLine()!);
 
 int totalSeats = 0;
-var changes = new long[N + 1, 10000 + 1];
+var changes = new long[N + 1, 20000 + 1];
 for (int i = 0; i <= N; i++)
-    for (int j = 0; j <= 10000; j++)
+    for (int j = 0; j <= 20000; j++)
         changes[i, j] = long.MaxValue;
 changes[0, 0] = 0;
 
