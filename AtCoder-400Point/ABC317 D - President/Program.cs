@@ -1,33 +1,36 @@
 ﻿var N = int.Parse(Console.ReadLine()!);
 
-int totalSeats = 0;
-var changes = new long[N + 1, 20000 + 1];
-for (int i = 0; i <= N; i++)
-    for (int j = 0; j <= 20000; j++)
-        changes[i, j] = long.MaxValue;
-changes[0, 0] = 0;
+var changes = new long[100000 + 1];
+for (int i = 1; i <= 100000; i++) changes[i] = long.MaxValue;
 
-for (int ward = 1; ward <= N; ward++)
+var xyz = new long[N + 1, 3];
+for (int i = 1; i <= N; i++)
 {
-    var xyz = Console.ReadLine()!.Split(' ').Select(long.Parse).ToArray();
-    var x = xyz[0]; var y = xyz[1]; var z = (int)xyz[2];
+    var read = Array.ConvertAll(Console.ReadLine()!.Split(' '), long.Parse);
+    xyz[i, 0] = read[0];
+    xyz[i, 1] = read[1];
+    xyz[i, 2] = read[2];
+}
 
-    totalSeats += z;
+long totalSeats = 0;
+for (int i = 1; i <= N; i++) totalSeats += xyz[i, 2];
 
-    for (int seats = 0; seats + z <= 10000; seats++)
+for (int i = 1; i <= N; i++)
+{
+    var x = xyz[i, 0]; var y = xyz[i, 1]; var z = xyz[i, 2];
+
+    for (long j = totalSeats - z; j >= 0; j--)
     {
-        if (changes[ward - 1, seats] == long.MaxValue) continue;
-
-        changes[ward, seats] = Math.Min(changes[ward, seats], changes[ward - 1, seats]);
-
-        var change = Math.Max((y - x) / 2 + 1, 0);
-        changes[ward, seats + z] = Math.Min(changes[ward, seats + z], changes[ward - 1, seats] + change);
+        if (changes[j] != long.MaxValue)
+        {
+            changes[j + z] = Math.Min(changes[j + z], changes[j] + Math.Max(0, (y - x) / 2 + 1));
+        }
     }
 }
 
 var result = long.MaxValue;
-for (int i = totalSeats / 2 + 1; i <= totalSeats; i++)
+for (long i = totalSeats / 2 + 1; i <= totalSeats; i++)
 {
-    if (result > changes[N, i]) result = changes[N, i];
+    if (result > changes[i]) result = changes[i];
 }
 Console.WriteLine(result);
